@@ -1,0 +1,75 @@
+<div class="table-responsive mt-4">
+  <table class="table text-nowrap">
+    <thead>
+      <tr>
+        <th>Estatus</th>
+        <th></th>
+        <th>
+          Numero de Lavadora
+          <i
+            class="fa-solid fa-caret-up mx-2"
+            [ngClass]="
+              changeColumnKeyMachine === true
+                ? 'fa-solid fa-caret-down'
+                : 'fa-solid fa-caret-up'
+            "
+            (click)="changeKeyMachine()"
+          ></i>
+        </th>
+        <th>
+          Descripcion
+          <i
+            class="fa-solid fa-caret-up mx-2"
+            [ngClass]="
+              changeColumnDescription === true
+                ? 'fa-solid fa-caret-down'
+                : 'fa-solid fa-caret-up'
+            "
+            (click)="changeDescription()"
+          ></i>
+        </th>
+        <th class="last">
+          Acciones
+        </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="row-color" *ngFor="let machine of machines_data | paginate: { itemsPerPage: selectedValue, currentPage: page };
+    index as i">
+      <td>
+        <span>{{getMachine(machine.id!)}}</span>
+      </td>
+      <td class="text-center">
+        <img style="width: 60px;height: 60px;" src="{{machine.image_machine}}">
+      </td>
+      <td>
+        <span>{{ machine.key_machine }}</span>
+      </td>
+      <td>
+        <span>{{ machine.description }}</span>
+      </td>
+      <td class="last">
+        <i class="fa fa-edit me-4" (click)="editMachineDialog(machine)"></i>
+        <i class="fa fa-trash" (click)="delete(machine)"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  <div class="col-12 d-flex flex-column-reverse flex-sm-row-reverse mt-3">
+    <pagination-controls
+      class="text-center m-0 p-0"
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+      [responsive]="true"
+    ></pagination-controls>
+    <mat-form-field class="d-none">
+      <mat-select [(value)]="selectedValue">
+        <mat-option [value]="10">10</mat-option>
+        <mat-option [value]="20">20</mat-option>
+        <mat-option [value]="50">50</mat-option>
+        <mat-option [value]="100">100</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>

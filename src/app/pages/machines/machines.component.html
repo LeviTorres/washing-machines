@@ -1,0 +1,30 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidebar mode='over'>
+      <app-sidebar></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+      <div class="content">
+          <div class="toolbar">
+              <mat-toolbar>
+                  <mat-icon (click)="sidebar.toggle()">menu</mat-icon>
+              </mat-toolbar>
+          </div>
+          <div class="main">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-middle text-center col-12">
+              <div class="col-12 col-sm-4">
+                <h1>Lavadoras</h1>
+              </div>
+              <div class="col-12 col-sm-4">
+                <mat-form-field class="w-100 " appearance="outline">
+                  <input matInput [formControl]="search" placeholder="Ingresa tu busqueda"/>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-sm-4">
+                <button mat-raised-button (click)="openDialogCreateMachine()">Crear Lavadora</button>
+              </div>
+            </div>
+            <app-table-machines [machines_data]="machines_data"></app-table-machines>
+          </div>
+      </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

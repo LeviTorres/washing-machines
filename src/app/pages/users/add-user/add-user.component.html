@@ -1,0 +1,137 @@
+<header class="d-flex col-12 align-items-flex-end">
+  <h2 mat-dialog-title class="col-10 p-0">
+    Nuevo usuario
+  </h2>
+  <div class="d-flex justify-content-end w-100">
+    <i mat-dialog-close class="fa-light fa-xmark fa"></i>
+  </div>
+</header>
+<div>
+  <form [formGroup]="form">
+    <div class="container-img" *ngIf="image">
+      <img [src]=[objectUrl] alt="">
+    </div>
+    <div class="container-img" *ngIf="!image">
+      <img src='../../../../assets/icons/avatar.jpg' alt="">
+    </div>
+    <div class="d-flex container-input-file">
+      <label class="custom-file my-2">
+        <input style="display: none;" type="file" formControlName="image_employee" (change)="handleImage($event)">
+        <mat-icon class="mx-2">cloud_upload</mat-icon><span>Subir imagen</span>
+      </label>
+    </div>
+    <div class="d-flex flex-column flex-sm-row">
+      <div class="col-12 col-sm-6">
+        <label >Nombre</label>
+        <mat-form-field class="w-100" appearance="outline">
+          <input matInput formControlName="name" placeholder="Ingresa tu nombre"/>
+          <mat-error
+            *ngIf="this.form.controls['name'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+          <mat-hint *ngIf="!sameName">Nombre completo ya utilizado</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-sm-6 px-0 px-sm-2">
+        <label >Apellido</label>
+        <mat-form-field class="w-100 " appearance="outline">
+          <input matInput formControlName="last_name" placeholder="Ingresa tu apellido"/>
+          <mat-error
+            *ngIf="this.form.controls['last_name'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+          <mat-hint *ngIf="!sameName">Nombre completo ya utilizado</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="d-flex flex-column flex-sm-row">
+      <div class="col-12 col-sm-6">
+        <label>Rol</label>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-select formControlName="rol" required placeholder="Selecciona un rol">
+            <mat-option value="ADMIN">Administrador</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="this.form.controls['rol'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-sm-6 px-0 px-sm-2">
+        <label>Email</label>
+        <mat-form-field class="w-100" appearance="outline">
+          <input matInput formControlName="email" placeholder="Ingresa tu email"/>
+          <mat-error
+            *ngIf="this.form.controls['email'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+          <mat-error
+            *ngIf="this.form.controls['email'].hasError('email')"
+          >
+            Email invalido
+          </mat-error>
+          <mat-hint *ngIf="!sameEmail">Email ya utilizado</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="d-flex flex-column flex-sm-row">
+      <div class="col-12 col-sm-6">
+        <label>Contraseña</label>
+        <mat-form-field class="w-100" appearance="outline">
+          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" placeholder="Ingresa una contraseña"/>
+          <span mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </span>
+          <mat-error
+            *ngIf="this.form.controls['password'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+          <mat-error
+            *ngIf="this.form.controls['password'].hasError('pattern')"
+          >
+            Contraseña invalida.<br> Debe contener minimo 8 caracteres y maximo 15 caracteres. <br> Al menos una letra mayúscula, al menos una letra minuscula. <br> Sin espacios en blanco <br> Al menos un dígito <br> Al menos 1 caracter especial
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-sm-6 px-0 px-sm-2">
+        <label>Repetir Contraseña</label>
+        <mat-form-field class="w-100 " appearance="outline">
+          <input matInput formControlName="password2" [type]="hide2 ? 'password' : 'text'" placeholder="Vuelve a escribir contraseña"/>
+          <span mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+            <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </span>
+          <mat-error
+            *ngIf="this.form.controls['password2'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+
+          <mat-hint *ngIf="!samePassword &&
+                            ( this.form.controls['password2'].touched )"
+          >Contraseñas no coinciden</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+      <mat-dialog-actions align="end" class="mat">
+        <div></div>
+        <div>
+          <button mat-stroked-button color="warn" mat-dialog-close>
+            Cancelar
+          </button>
+          <button
+            mat-raised-button
+            class="mx-2 btn-save"
+            (click)="createElement()"
+          >
+          Crear usuario
+          </button>
+        </div>
+      </mat-dialog-actions>
+  </form>
+</div>
+

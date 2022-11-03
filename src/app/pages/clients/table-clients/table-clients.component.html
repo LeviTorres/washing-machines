@@ -1,0 +1,113 @@
+<div class="table-responsive mt-4">
+  <table class="table text-nowrap">
+    <thead>
+      <tr>
+        <th>
+          Estatus
+          <i
+            class="fa-solid fa-caret-up mx-2"
+            [ngClass]="
+              changeColumnStatus === true
+                ? 'fa-solid fa-caret-down'
+                : 'fa-solid fa-caret-up'
+            "
+            (click)="changeStatus()"
+          ></i>
+        </th>
+        <th>
+          Nombre
+          <i
+            class="fa-solid fa-caret-up mx-2"
+            [ngClass]="
+              changeColumnName === true
+                ? 'fa-solid fa-caret-down'
+                : 'fa-solid fa-caret-up'
+            "
+            (click)="changeName()"
+          ></i>
+        </th>
+        <th>
+          Apellido
+          <i
+            class="fa-solid fa-caret-up mx-2"
+            [ngClass]="
+              changeColumnLastName === true
+                ? 'fa-solid fa-caret-down'
+                : 'fa-solid fa-caret-up'
+            "
+            (click)="changeLastName()"
+          ></i>
+        </th>
+        <th>
+          Correo
+          <i
+            class="fa-solid fa-caret-up mx-2"
+            [ngClass]="
+              changeColumnEmail === true
+                ? 'fa-solid fa-caret-down'
+                : 'fa-solid fa-caret-up'
+            "
+            (click)="changeEmail()"
+          ></i>
+        </th>
+        <th>
+          Numero telefonico
+        </th>
+        <th>Direccion</th>
+        <th>Observaciones</th>
+        <th class="last">
+          Acciones
+        </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="row-color" *ngFor="let client of clients_data | paginate: { itemsPerPage: selectedValue, currentPage: page };
+    index as i">
+      <td>
+        <span>{{getClient(client.id!)}}</span>
+      </td>
+      <td>
+        <span>{{ client.name }}</span>
+      </td>
+      <td>
+        <span>{{ client.last_name }}</span>
+      </td>
+      <td>
+        <span>{{ client.email}}</span>
+      </td>
+      <td>
+        <span>{{ client.phone_number}}</span>
+      </td>
+      <td>
+        <span>{{client.street}}, #{{client.number_house}}, {{client.suburb}}, C.P. {{client.postal_code}}</span>
+      </td>
+      <td>
+        <span *ngIf="client.observations">{{client.observations}}</span>
+        <span *ngIf="!client.observations">Sin observaciones</span>
+      </td>
+      <td class="last">
+        <i class="fa fa-edit me-4" (click)="editUserDialog(client)"></i>
+        <i class="fa fa-trash" (click)="delete(client)"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+  <div class="col-12 d-flex flex-column-reverse flex-sm-row-reverse mt-3">
+    <pagination-controls
+      class="text-center m-0 p-0"
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+      [responsive]="true"
+    ></pagination-controls>
+    <mat-form-field class="d-none">
+      <mat-select [(value)]="selectedValue">
+        <mat-option [value]="10">10</mat-option>
+        <mat-option [value]="20">20</mat-option>
+        <mat-option [value]="50">50</mat-option>
+        <mat-option [value]="100">100</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+

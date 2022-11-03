@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "washing-machines-af43e": {
+      "hosting": {
+        "washing-machines": [
+          "washing-machines-af43e"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "washing-machines-af43e"
+  }
+}
