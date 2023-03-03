@@ -4,6 +4,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { Machine } from '../interfaces/machines.interface';
+import { Client } from '../interfaces/client.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,10 @@ export class FirestoreService {
     this.uploadImageMachine(machine, image);
   }
 
+  public preAddAndUpdateClient(client:Client, image:any){
+    this.uploadImageClient(client, image)
+  }
+
   public uploadImage(user: User, image:any){
     this.filePath = `images/${user.id}`;
     const fileRef = this.storage.ref(this.filePath);
@@ -73,6 +78,21 @@ export class FirestoreService {
           this.downloadUrl = urlImage;
           machine.image_machine = urlImage;
           this.createDoc(machine, 'machines', machine.id);
+        })
+      })
+    ).subscribe()
+  }
+
+  public uploadImageClient(client: Client, image:any){
+    this.filePath = `images/${client.id}`;
+    const fileRef = this.storage.ref(this.filePath);
+    const task = this.storage.upload(this.filePath, image);
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(urlImage => {
+          this.downloadUrl = urlImage;
+          client.image_credential = urlImage;
+          this.createDoc(client, 'clients', client.id);
         })
       })
     ).subscribe()

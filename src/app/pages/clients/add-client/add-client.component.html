@@ -121,6 +121,18 @@
           </mat-form-field>
       </div>
     </div>
+      <div class="container-img" *ngIf="image">
+        <img [src]=[objectUrl] alt="">
+      </div>
+      <div class="container-img" *ngIf="!image">
+        <img src='../../../../assets/icons/credencial.jpg' alt="">
+      </div>
+      <div class="d-flex container-input-file">
+        <label class="custom-file my-2">
+          <input style="display: none;" accept="image/*" type="file" formControlName="image_credential" (change)="handleImage($event)">
+          <mat-icon class="mx-2">cloud_upload</mat-icon><span>Subir imagen</span>
+        </label>
+      </div>
       <mat-dialog-actions align="end" class="mat">
         <div></div>
         <div>

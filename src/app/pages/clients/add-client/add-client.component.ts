@@ -6,6 +6,7 @@ import { GeneralService } from '../../../services/general.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../services/auth.service';
+import { ConvertImgService } from '../../../services/convert-img.service';
 
 @Component({
   selector: 'app-add-client',
@@ -19,6 +20,10 @@ export class AddClientComponent implements OnInit {
 
   public sameName: boolean = true;
 
+  public image: any ;
+
+  public objectUrl:any;
+
   public form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     last_name: new FormControl('', [Validators.required]),
@@ -29,6 +34,7 @@ export class AddClientComponent implements OnInit {
     postal_code: new FormControl('', [Validators.required]),
     number_house: new FormControl('', [Validators.required]),
     observations: new FormControl(''),
+    image_credential: new FormControl(''),
   });
 
   constructor(
@@ -36,6 +42,7 @@ export class AddClientComponent implements OnInit {
     private _general: GeneralService,
     private _dialogRef: MatDialogRef<AddClientComponent>,
     private _toast:ToastrService,
+    private _convert: ConvertImgService
   ) {
 
   }
@@ -64,6 +71,13 @@ export class AddClientComponent implements OnInit {
     })
   }
 
+  public async handleImage(event: any){
+    this.image = event.target.files[0];
+    if(this.image){
+      this.objectUrl = await this._convert.encodeFileAsBase64URL(this.image);
+    }
+  }
+
   public async createElement() {
     try {
       this._general._spinner.show();
@@ -86,10 +100,17 @@ export class AddClientComponent implements OnInit {
         observations: this.form.controls['observations'].value.trim(),
         status: 'available'
       }
-        this._firestore.createDoc(element,'clients',element.id);
+
+      if(element){
+        if(this.image){
+          this._firestore.preAddAndUpdateClient(element, this.image)
+        }else {
+          this._firestore.createDoc(element,'clients',element.id);
+        }
         this._dialogRef.close();
         this._general._spinner.hide();
         this._toast.success('Usuario registrado con Exito');
+      }
 
     } catch (error) {
       console.log(error);
