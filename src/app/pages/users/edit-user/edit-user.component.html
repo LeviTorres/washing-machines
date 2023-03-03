@@ -52,6 +52,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-select formControlName="rol" required placeholder="Selecciona un rol">
             <mat-option value="ADMIN">Administrador</mat-option>
+            <mat-option value="DELIVERY_MAN">Repartidor</mat-option>
           </mat-select>
           <mat-error
             *ngIf="this.form.controls['rol'].hasError('required')"
