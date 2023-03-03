@@ -16,7 +16,7 @@
     </div>
     <div class="d-flex container-input-file">
       <label class="custom-file my-2">
-        <input style="display: none;" type="file" formControlName="image_employee" (change)="handleImage($event)">
+        <input style="display: none;" accept="images/*" type="file" formControlName="image_employee" (change)="handleImage($event)">
         <mat-icon class="mx-2">cloud_upload</mat-icon><span>Subir imagen</span>
       </label>
     </div>
