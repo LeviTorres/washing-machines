@@ -35,7 +35,7 @@
       <div class="col-12">
         <label >Descripcion</label>
         <mat-form-field class="w-100 " appearance="outline">
-          <input matInput formControlName="description" placeholder="Ingresa un apellido"/>
+          <textarea matInput formControlName="description" placeholder="Ingresa una descripcion"></textarea>
           <mat-error
             *ngIf="this.form.controls['description'].hasError('required')"
           >

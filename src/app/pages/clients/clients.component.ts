@@ -46,10 +46,15 @@ export class ClientsComponent implements OnInit {
     const filter = this.search.value?.toLowerCase();
     if (filter) {
       let data = list.filter((client:Client) =>
-        client.name.toLowerCase().includes(filter) ||
-        client.last_name.toLowerCase().includes(filter) ||
-        client.email.toLowerCase().includes(filter)||
-        client.phone_number.toLowerCase().includes(filter)
+        client.name.toLowerCase().trim().includes(filter) ||
+        client.last_name.toLowerCase().trim().includes(filter) ||
+        client.email.toLowerCase().trim().includes(filter)||
+        client.phone_number.toLowerCase().trim().includes(filter) ||
+        client.street.toLowerCase().trim().includes(filter) ||
+        client.observations.toLowerCase().trim().includes(filter) ||
+        client.postal_code.toLowerCase().trim().includes(filter) ||
+        client.suburb.toLowerCase().trim().includes(filter) ||
+        client.number_house.toLowerCase().trim().includes(filter)
       );
       this.clients_data = data;
     } else {
