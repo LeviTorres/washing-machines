@@ -37,7 +37,6 @@ export class UsersComponent implements OnInit {
       disableClose: true,
       autoFocus: false,
       width: '650px',
-      height: '95vh'
     })
   }
 
