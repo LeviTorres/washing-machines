@@ -10,10 +10,9 @@ import { EditClientComponent } from '../edit-client/edit-client.component';
 @Component({
   selector: 'app-table-clients',
   templateUrl: './table-clients.component.html',
-  styleUrls: ['./table-clients.component.scss']
+  styleUrls: ['./table-clients.component.scss'],
 })
 export class TableClientsComponent implements OnInit {
-
   public selectedValue: number = 10;
 
   public page!: number;
@@ -29,52 +28,53 @@ export class TableClientsComponent implements OnInit {
   public changeColumnEmail: boolean = true;
 
   constructor(
-    private _firestore:FirestoreService,
-    private _spinner:NgxSpinnerService,
-    private _general:GeneralService,
-    private _toastr:ToastrService,
+    private _firestore: FirestoreService,
+    private _spinner: NgxSpinnerService,
+    private _general: GeneralService,
+    private _toastr: ToastrService,
     private _dialog: MatDialog
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
-    console.log('this.clients_data',this.clients_data);
-
+    console.log('this.clients_data', this.clients_data);
   }
 
   public getClients() {
-  this._firestore.getCollection<Client>('clients').subscribe((res: any) => {
+    this._firestore.getCollection<Client>('clients').subscribe((res: any) => {
       if (res.length > 0) {
         this.clients_data = res;
         this._spinner.hide();
       }
-    })
+    });
   }
 
-  public getClient(id: string){
+  public getClient(id: string) {
     const client = this.clients_data.find((client: Client) => client.id === id);
 
-    if(client?.status === 'available'){
-      return 'Disponible'
+    if (client?.status === 'available') {
+      return 'Disponible';
     }
-    if(client?.status === 'busy'){
-      return 'Rentando'
+    if (client?.status === 'busy') {
+      return 'Rentando';
     }
     return;
   }
 
-  public editUserDialog(client:Client){
-      this._dialog.open(EditClientComponent,{
-        disableClose: true,
-        autoFocus: false,
-        width: '650px',
-        maxHeight: '95vh',
-        data: client
-      })
+  public editUserDialog(client: Client) {
+    this._dialog.open(EditClientComponent, {
+      disableClose: true,
+      autoFocus: false,
+      width: '650px',
+      maxHeight: '95vh',
+      data: client,
+    });
   }
 
-  public async delete(client:Client){
+  public async delete(client: Client) {
+    if (client.status === 'busy') {
+      this._general.alertWarning('','No se puede eliminar cliente porque actualmente tiene una lavadora rentada')
+      return;
+    }
     const result = await this._general.alertQuestion(
       '¿Está seguro de eliminarlo?',
       'Esta acción no se puede deshacer.'
@@ -83,18 +83,21 @@ export class TableClientsComponent implements OnInit {
     if (result.isConfirmed) {
       this._general._spinner.show();
       try {
-        this._firestore.deleteDocument('clients', client.id)
+        this._firestore.deleteDocument('clients', client.id);
         this._general._spinner.hide();
         this._toastr.success('Cliente eliminado con exito');
       } catch (error) {
         console.log(error);
         this._general._spinner.hide();
-        this._toastr.error('Inténtelo de nuevo, si el error persiste, reinicie la página.', 'Error al eliminar un cliente');
+        this._toastr.error(
+          'Inténtelo de nuevo, si el error persiste, reinicie la página.',
+          'Error al eliminar un cliente'
+        );
       }
     }
   }
 
-  public changeName(){
+  public changeName() {
     let list = this.clients_data;
     this.changeColumnName = !this.changeColumnName;
     if (!this.changeColumnName) {
@@ -124,8 +127,7 @@ export class TableClientsComponent implements OnInit {
     }
   }
 
-
-  public changeLastName(){
+  public changeLastName() {
     let list = this.clients_data;
     this.changeColumnLastName = !this.changeColumnLastName;
     if (!this.changeColumnLastName) {
@@ -155,7 +157,7 @@ export class TableClientsComponent implements OnInit {
     }
   }
 
-  public changeStatus(){
+  public changeStatus() {
     let list = this.clients_data;
     this.changeColumnStatus = !this.changeColumnStatus;
     if (!this.changeColumnStatus) {
@@ -185,7 +187,7 @@ export class TableClientsComponent implements OnInit {
     }
   }
 
-  public changeEmail(){
+  public changeEmail() {
     let list = this.clients_data;
     this.changeColumnEmail = !this.changeColumnEmail;
     if (!this.changeColumnEmail) {
@@ -214,7 +216,4 @@ export class TableClientsComponent implements OnInit {
       this.clients_data = s;
     }
   }
-
-
-
 }

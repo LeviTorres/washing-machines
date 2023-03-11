@@ -68,6 +68,10 @@ export class TableMachinesComponent implements OnInit {
   }
 
   public async delete(machine:Machine){
+    if (machine.status === 'busy') {
+      this._general.alertWarning('','No se puede eliminar lavadora porque actualmente se encuentra rentada')
+      return;
+    }
     const result = await this._general.alertQuestion(
       '¿Está seguro de eliminarlo?',
       'Esta acción no se puede deshacer.'
