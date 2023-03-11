@@ -48,10 +48,10 @@
         >Estado:
         <strong
           [ngClass]="{
-            'green': item.status === 'delivered',
-            'red': item.status === 'canceled',
-            'orange': item.status === 'waiting_to_deliver',
-            'blue': item.status === 'collect'
+            'green-status': item.status === 'delivered',
+            'red-status': item.status === 'canceled',
+            'orange-status': item.status === 'waiting_to_deliver',
+            'blue-status': item.status === 'collect'
           }"
           style="padding: 5px; border-radius: 4px; color: white"
           >{{ getStatus(item.status) }}</strong

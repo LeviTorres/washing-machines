@@ -48,7 +48,7 @@ export class TableClientsComponent implements OnInit {
     });
   }
 
-  public getClient(id: string) {
+  public getClientStatus(id: string) {
     const client = this.clients_data.find((client: Client) => client.id === id);
 
     if (client?.status === 'available') {

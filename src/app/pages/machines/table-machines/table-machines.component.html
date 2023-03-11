@@ -37,7 +37,11 @@
     <tr class="row-color" *ngFor="let machine of machines_data | paginate: { itemsPerPage: selectedValue, currentPage: page };
     index as i">
       <td>
-        <span>{{getMachine(machine.id!)}}</span>
+        <span [ngClass]="{
+          'green-status': machine.status === 'available',
+          'blue-status': machine.status === 'busy'
+        }"
+        style="border-radius: 4px; padding: 5px;color: white;">{{getMachine(machine.id!)}}</span>
       </td>
       <td class="text-center">
         <img style="width: 60px;height: 60px;" src="{{machine.image_machine}}">
