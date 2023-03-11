@@ -5,26 +5,39 @@ import { finalize } from 'rxjs';
 import { User } from '../interfaces/user.interface';
 import { Machine } from '../interfaces/machines.interface';
 import { Client } from '../interfaces/client.interface';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FirestoreService {
-
   public filePath: any;
   public downloadUrl: any;
 
   constructor(
     private _firestore: AngularFirestore,
-    public storage: AngularFireStorage
-    ) { }
+    public storage: AngularFireStorage,
+    private _auth: AngularFireAuth
+  ) {}
 
-  createDoc(data:any, path: string, id?: string){
+  login(email: string, password: string): Promise<any> {
+    return this._auth.signInWithEmailAndPassword(email, password);
+  }
+
+  signOut(): Promise<any> {
+    return this._auth.signOut();
+  }
+
+  recovery(email: string): Promise<any> {
+    return this._auth.sendPasswordResetEmail(email);
+  }
+
+  createDoc(data: any, path: string, id?: string) {
     const collection = this._firestore.collection(path);
     return collection.doc(id).set(data);
   }
 
-  getDoc<tipo>(path: string, id:string){
+  getDoc<tipo>(path: string, id: string) {
     return this._firestore.collection(path).doc<tipo>(id).valueChanges();
   }
 
@@ -32,70 +45,78 @@ export class FirestoreService {
     return this._firestore.collection(path).doc(id).delete();
   }
 
-  getCollection<tipo>(path: string){
+  getCollection<tipo>(path: string) {
     const collection = this._firestore.collection<tipo>(path);
     return collection.valueChanges();
   }
 
-  updateDoc(path:string, id: string, data:any){
-     return this._firestore.collection(path).doc(id).update(data);
+  updateDoc(path: string, id: string, data: any) {
+    return this._firestore.collection(path).doc(id).update(data);
   }
 
-  public preAddAndUpdateUser(user: User, image: any){
+  public preAddAndUpdateUser(user: User, image: any) {
     this.uploadImage(user, image);
   }
 
-  public preAddAndUpdateMachine(machine: Machine, image: any){
+  public preAddAndUpdateMachine(machine: Machine, image: any) {
     this.uploadImageMachine(machine, image);
   }
 
-  public preAddAndUpdateClient(client:Client, image:any){
-    this.uploadImageClient(client, image)
+  public preAddAndUpdateClient(client: Client, image: any) {
+    this.uploadImageClient(client, image);
   }
 
-  public uploadImage(user: User, image:any){
+  public uploadImage(user: User, image: any) {
     this.filePath = `images/${user.id}`;
     const fileRef = this.storage.ref(this.filePath);
     const task = this.storage.upload(this.filePath, image);
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe(urlImage => {
-          this.downloadUrl = urlImage;
-          user.image_employee = urlImage;
-          this.createDoc(user, 'users', user.id);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((urlImage) => {
+            this.downloadUrl = urlImage;
+            user.image_employee = urlImage;
+            this.createDoc(user, 'users', user.id);
+          });
         })
-      })
-    ).subscribe()
+      )
+      .subscribe();
   }
 
-  public uploadImageMachine(machine: Machine, image:any){
+  public uploadImageMachine(machine: Machine, image: any) {
     this.filePath = `images/${machine.id}`;
     const fileRef = this.storage.ref(this.filePath);
     const task = this.storage.upload(this.filePath, image);
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe(urlImage => {
-          this.downloadUrl = urlImage;
-          machine.image_machine = urlImage;
-          this.createDoc(machine, 'machines', machine.id);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((urlImage) => {
+            this.downloadUrl = urlImage;
+            machine.image_machine = urlImage;
+            this.createDoc(machine, 'machines', machine.id);
+          });
         })
-      })
-    ).subscribe()
+      )
+      .subscribe();
   }
 
-  public uploadImageClient(client: Client, image:any){
+  public uploadImageClient(client: Client, image: any) {
     this.filePath = `images/${client.id}`;
     const fileRef = this.storage.ref(this.filePath);
     const task = this.storage.upload(this.filePath, image);
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe(urlImage => {
-          this.downloadUrl = urlImage;
-          client.image_credential = urlImage;
-          this.createDoc(client, 'clients', client.id);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((urlImage) => {
+            this.downloadUrl = urlImage;
+            client.image_credential = urlImage;
+            this.createDoc(client, 'clients', client.id);
+          });
         })
-      })
-    ).subscribe()
+      )
+      .subscribe();
   }
-
 }
