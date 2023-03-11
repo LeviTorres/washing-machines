@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div style="height: 100vh; background-color: #B0BEC5;display: flex;justify-content: center; align-items: center;">
+  <div class="card p-4" style="max-width: 400px; display: flex; justify-content: center;align-items: center;">
+    <h1>Lavadoras Torres</h1>
+    <img style="width: 80px; height: 80px;" class="mb-3" src="../../../assets/icons/washing-machine.png" alt="">
+    <form class="col-12" [formGroup]="form">
+      <div class="col-12">
+        <label>Correo electrónico</label>
+        <mat-form-field class="w-100" appearance="outline">
+          <input matInput formControlName="email" placeholder="user@gmail.com"/>
+          <mat-error
+            *ngIf="this.form.controls['email'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12">
+        <label>Contraseña</label>
+        <mat-form-field class="w-100" appearance="outline">
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="**********************">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="this.form.controls['password'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 mt-3 text-center">
+        <button  mat-raised-button class="btn-save w-100 mb-3" routerLink="/home">INICIAR SESIÓN</button>
+        <span class="" style="cursor: pointer;">¿Olvidaste tu contraseña?</span>
+      </div>
+    </form>
+  </div>
+</div>
