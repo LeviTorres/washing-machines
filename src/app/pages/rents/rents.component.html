@@ -24,6 +24,16 @@
                 placeholder="Ingresa tu busqueda"
               />
             </mat-form-field>
+            <div>
+              <button mat-button class="btn-save" [matMenuTriggerFor]="menu">Filtrar por</button>
+            </div>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="selectMenu('All')">Todas</button>
+              <button mat-menu-item (click)="selectMenu('waiting_to_deliver')">Esperando a entregar</button>
+              <button mat-menu-item (click)="selectMenu('delivered')">Entregada</button>
+              <button mat-menu-item (click)="selectMenu('canceled')">Cancelada</button>
+              <button mat-menu-item (click)="selectMenu('collect')">Recogida</button>
+            </mat-menu>
           </div>
           <div class="col-12 col-sm-4">
             <button mat-raised-button class="btn-save" (click)="openDialogCreateRent()">

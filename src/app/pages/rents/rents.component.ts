@@ -14,8 +14,10 @@ import { FirestoreService } from '../../services/firestore.service';
 export class RentsComponent implements OnInit {
 
   public rents_data: Rent[] = [];
+  public rents_data_temp: Rent[] = []
   public data: Rent[] = [];
   public search: FormControl = new FormControl('');
+  public selectedFilter: string = ''
 
   constructor(
     private _dialog: MatDialog,
@@ -23,16 +25,17 @@ export class RentsComponent implements OnInit {
     private _spinner: NgxSpinnerService
   ) {
     this._spinner.show()
+    this.getRents()
   }
 
   ngOnInit(): void {
-    this.getRents()
   }
 
   public getRents() {
     this._firestore.getCollection<Rent>('rents').subscribe((res: Rent[]) => {
       if (res.length > 0) {
         this.rents_data = res;
+        this.rents_data_temp = this.rents_data
         this.data = res;
         this._spinner.hide();
       }
@@ -46,5 +49,13 @@ export class RentsComponent implements OnInit {
       width: '550px',
       maxHeight: '95vh'
     })
+  }
+
+  selectMenu(name: string){
+    if(name === 'All'){
+      this.rents_data = this.rents_data_temp
+    }else {
+      this.rents_data = this.rents_data_temp.filter((e:any) => e.status === name)
+    }
   }
 }
