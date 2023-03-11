@@ -9,5 +9,38 @@
 }
 
 html, body { height: 100%; }
-body { margin: 0; }
+body {
+  margin: 0;
+  height: 100%;
+  overflow-y: hidden;
+}
 
+mat-sidenav{
+  background-color: #6D8299 !important;
+  width: 230px !important;
+  height: 100vh !important;
+}
+
+mat-sidenav-content{
+  .main{
+      height: calc(100vh - 64px)  !important;
+      overflow-y: auto !important;
+      padding: 20px;
+  }
+}
+
+mat-toolbar{
+  background-color: #B0BEC5 !important;
+  position: sticky !important;
+  z-index: 1;
+  mat-icon{
+    margin-left: 15px;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.btn-save {
+  background-color: #455A64 !important;
+  color: white !important;
+}

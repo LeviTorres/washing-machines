@@ -18,12 +18,13 @@ export class TableRentsComponent implements OnInit {
   @Input() rents_data: Rent[] = [];
   public clients_data: Client[] = [];
   public machines_data: Machine[] = [];
+  public machines_available: Machine[] = [];
 
   constructor(
     private _dialog: MatDialog,
     private _firestore: FirestoreService,
     private _spinner: NgxSpinnerService,
-    private _general:GeneralService,
+    private _general: GeneralService,
     private _toastr: ToastrService
   ) {
     this._spinner.show();
@@ -31,10 +32,7 @@ export class TableRentsComponent implements OnInit {
     this.getMachines();
   }
 
-  ngOnInit(): void {
-    console.log(this.dateToday);
-
-  }
+  ngOnInit(): void {}
 
   public getClients() {
     this._firestore
@@ -53,6 +51,9 @@ export class TableRentsComponent implements OnInit {
       .subscribe((res: Machine[]) => {
         if (res.length > 0) {
           this.machines_data = res;
+          this.machines_available = res.filter(
+            (e: Machine) => e.status === 'available'
+          );
           this._spinner.hide();
         }
       });
@@ -85,15 +86,26 @@ export class TableRentsComponent implements OnInit {
   }
 
   public getStatus(status: string) {
-    if (status === 'rented') {
-      return 'A tiempo';
+    if (status === 'waiting_to_deliver') {
+      return 'Esperando a entregar';
+    }
+    if (status === 'delivered') {
+      return 'Entregada';
+    }
+    if (status === 'canceled') {
+      return 'Cancelada';
+    }
+    if (status === 'collect') {
+      return 'Recogida';
     }
     return;
   }
 
   getExpirationDay(date: number) {
     let milisegundosDia = 24 * 60 * 60 * 1000;
-    let milisegundosTranscurridos = Math.abs(this.dateToday.getTime() - new Date(date).getTime());
+    let milisegundosTranscurridos = Math.abs(
+      this.dateToday.getTime() - new Date(date).getTime()
+    );
     const resta = Math.round(milisegundosTranscurridos / milisegundosDia);
     if (resta >= 0) {
       return resta;
@@ -101,7 +113,7 @@ export class TableRentsComponent implements OnInit {
     return;
   }
 
-  async checkRent(){
+  async checkRent(rent: Rent) {
     const result = await this._general.alertQuestion(
       '¿Está seguro que deseas continuar?',
       'Esta acción no se puede deshacer.'
@@ -110,13 +122,89 @@ export class TableRentsComponent implements OnInit {
     if (result.isConfirmed) {
       this._general._spinner.show();
       try {
+        const elementRent: any = {
+          status: 'delivered',
+          delivered_date: new Date().getTime(),
+        };
 
+        this._firestore.updateDoc('rents', rent.id!, elementRent);
+        this._toastr.success('Renta actualizada con exito');
         this._general._spinner.hide();
-        this._toastr.success('Lavadora eliminada con exito');
       } catch (error) {
         console.log(error);
         this._general._spinner.hide();
-        this._toastr.error('Inténtelo de nuevo, si el error persiste, reinicie la página.', 'Error al eliminar una lavadora');
+        this._toastr.error(
+          'Inténtelo de nuevo, si el error persiste, reinicie la página.',
+          'Error al actualizar la renta'
+        );
+      }
+    }
+  }
+
+  async cancelRent(rent: Rent) {
+    const result = await this._general.alertQuestion(
+      '¿Está seguro que deseas continuar?',
+      'Esta acción no se puede deshacer.'
+    );
+
+    if (result.isConfirmed) {
+      this._general._spinner.show();
+      try {
+        const elementRent: any = {
+          status: 'canceled',
+          canceled_date: new Date().getTime(),
+        };
+
+        this._firestore.updateDoc('rents', rent.id!, elementRent).then(() => {
+          const element: any = {
+            status: 'available',
+          };
+          this._firestore.updateDoc('clients', rent.client, element);
+          this._firestore.updateDoc('machines', rent.machine, element);
+          this._toastr.success('Renta actualizada con exito');
+          this._general._spinner.hide();
+        });
+      } catch (error) {
+        console.log(error);
+        this._general._spinner.hide();
+        this._toastr.error(
+          'Inténtelo de nuevo, si el error persiste, reinicie la página.',
+          'Error al actualizar la renta'
+        );
+      }
+    }
+  }
+
+  async checkCollect(rent: Rent) {
+    const result = await this._general.alertQuestion(
+      '¿Está seguro que deseas continuar?',
+      'Esta acción no se puede deshacer.'
+    );
+
+    if (result.isConfirmed) {
+      this._general._spinner.show();
+      try {
+        const elementRent: any = {
+          status: 'collect',
+          collect_date: new Date().getTime(),
+        };
+
+        this._firestore.updateDoc('rents', rent.id!, elementRent).then(() => {
+          const element: any = {
+            status: 'available',
+          };
+          this._firestore.updateDoc('clients', rent.client, element);
+          this._firestore.updateDoc('machines', rent.machine, element);
+          this._toastr.success('Renta actualizada con exito');
+          this._general._spinner.hide();
+        });
+      } catch (error) {
+        console.log(error);
+        this._general._spinner.hide();
+        this._toastr.error(
+          'Inténtelo de nuevo, si el error persiste, reinicie la página.',
+          'Error al actualizar la renta'
+        );
       }
     }
   }

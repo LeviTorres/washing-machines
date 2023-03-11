@@ -79,7 +79,8 @@ export class AddRentComponent implements OnInit {
       machine: this.form.controls['machine'].value,
       start_date: new Date(this.form.controls['start_date'].value).getTime(),
       finish_date: new Date(this.form.controls['finish_date'].value).getTime(),
-      status: 'rented'
+      status: 'waiting_to_deliver',
+      requested_date: new Date().getTime()
     }
 
     this._firestore.createDoc(element,'rents', element.id).then(() => {

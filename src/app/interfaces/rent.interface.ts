@@ -4,5 +4,9 @@ export interface Rent {
   machine: string;
   start_date: number;
   finish_date: number;
-  status: 'rented';
+  requested_date?: number;
+  delivered_date?: number;
+  canceled_date?: number;
+  collect_date?: number;
+  status: 'delivered' | 'canceled' | 'waiting_to_deliver' | 'collect';
 }
