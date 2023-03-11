@@ -8,8 +8,10 @@
       <span>Fecha final: <strong>{{item.finish_date | date: 'dd/MM/yyyy'}}</strong></span>
       <span>Dias para vencimiento: {{getExpirationDay(item.finish_date)}}</span>
       <span class="mt-2">Estado: <strong style="background-color: green;padding: 5px;border-radius: 4px;color: white;">{{getStatus(item.status)}}</strong></span>
-      <button mat-button class="mt-2" (click)="checkRent()">Entregada</button>
-      <button mat-stroked-button color="warn" class="mt-2">Cancelada</button>
+      <div class="col-12 d-flex mt-2">
+        <button mat-raised-button class="me-2 btn-save col-6" (click)="checkRent()">Entregada</button>
+        <button mat-stroked-button color="warn" class=" col-6">Cancelada</button>
+      </div>
     </div>
   </div>
 </div>

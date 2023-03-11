@@ -1,5 +1,5 @@
 <header class="d-flex col-12 align-items-flex-end">
-  <h2 mat-dialog-title class="col-10 p-0">Nueva Lavadora</h2>
+  <h2 mat-dialog-title class="col-10 p-0">Nueva Renta</h2>
   <div class="d-flex justify-content-end w-100">
     <i mat-dialog-close class="fa-light fa-xmark fa"></i>
   </div>
@@ -42,7 +42,7 @@
     </div>
     <div class="col-12">
       <label>Fecha de Renta</label>
-      <mat-form-field class="w-100" appearance="outline">
+      <mat-form-field class="w-100" appearance="outline" style="position: relative !important;">
         <mat-date-range-input [rangePicker]="picker">
           <input
             matStartDate
@@ -58,6 +58,7 @@
         <mat-datepicker-toggle
           matIconSuffix
           [for]="picker"
+          style="position: absolute !important; right: 0;top: 0.5px;"
         ></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
