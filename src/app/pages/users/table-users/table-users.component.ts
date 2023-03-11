@@ -6,6 +6,7 @@ import { GeneralService } from '../../../services/general.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { EditUserComponent } from '../edit-user/edit-user.component';
+import { AuthGuard } from '../../../auth.guard';
 
 @Component({
   selector: 'app-table-users',
@@ -17,6 +18,8 @@ export class TableUsersComponent implements OnInit {
   public selectedValue: number = 10;
 
   public page!: number;
+
+  public user!: User
 
   @Input() users_data: User[] = [];
 
@@ -33,8 +36,11 @@ export class TableUsersComponent implements OnInit {
     private _spinner:NgxSpinnerService,
     private _general:GeneralService,
     private _toastr:ToastrService,
-    private _dialog:MatDialog
-  ) {}
+    private _dialog:MatDialog,
+    private _auth: AuthGuard
+  ) {
+    this.user = this._auth.user_name
+  }
 
   ngOnInit(): void {}
 
@@ -49,6 +55,10 @@ export class TableUsersComponent implements OnInit {
   }
 
   public async delete(user:User){
+    if(this.user.id === user.id){
+      this._general.alertWarning('','No se puede eliminar este usuario')
+      return
+    }
     const result = await this._general.alertQuestion(
       '¿Está seguro de eliminarlo?',
       'Esta acción no se puede deshacer.'

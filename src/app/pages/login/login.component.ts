@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     this._firebase
       .login(email, password)
       .then((user: any) => {
-        console.log(user);
         this._router.navigateByUrl('/home');
       })
       .catch(() => {
