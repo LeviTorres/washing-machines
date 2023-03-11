@@ -9,19 +9,28 @@
     <div class="card p-3">
       <span *ngIf="item.requested_date"
         >Fecha solicitada:
-        <strong>{{ item.requested_date | date : "dd/MM/yyyy" }}</strong></span
+        <strong>{{ item.requested_date | date : "dd/MM/yyyy" }}</strong
+        ><span *ngIf="item.requested_user">
+          por <strong>{{ item.requested_user }}</strong></span
+        ></span
       >
       <span *ngIf="item.delivered_date"
         >Fecha entregada:
-        <strong>{{ item.delivered_date | date : "dd/MM/yyyy" }}</strong></span
+        <strong>{{ item.delivered_date | date : "dd/MM/yyyy" }}</strong><span *ngIf="item.delivered_user">
+          por <strong>{{ item.delivered_user }}</strong></span
+        ></span
       >
       <span *ngIf="item.canceled_date"
         >Fecha cancelada:
-        <strong>{{ item.canceled_date | date : "dd/MM/yyyy" }}</strong></span
+        <strong>{{ item.canceled_date | date : "dd/MM/yyyy" }}</strong><span *ngIf="item.canceled_user">
+          por <strong>{{ item.canceled_user }}</strong></span
+        ></span
       >
       <span *ngIf="item.collect_date"
         >Fecha recoger:
-        <strong>{{ item.collect_date | date : "dd/MM/yyyy" }}</strong></span
+        <strong>{{ item.collect_date | date : "dd/MM/yyyy" }}</strong><span *ngIf="item.collect_user">
+          por <strong>{{ item.collect_user }}</strong></span
+        ></span
       >
       <span
         >Cliente:

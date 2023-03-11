@@ -8,5 +8,9 @@ export interface Rent {
   delivered_date?: number;
   canceled_date?: number;
   collect_date?: number;
+  requested_user?: string;
+  delivered_user?: string;
+  canceled_user?:string;
+  collect_user?: string;
   status: 'delivered' | 'canceled' | 'waiting_to_deliver' | 'collect';
 }

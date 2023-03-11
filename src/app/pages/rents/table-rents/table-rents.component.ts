@@ -7,6 +7,9 @@ import { Client } from '../../../interfaces/client.interface';
 import { Machine } from '../../../interfaces/machines.interface';
 import { GeneralService } from '../../../services/general.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../services/auth.service';
+import { AuthGuard } from '../../../auth.guard';
+import { User } from '../../../interfaces/user.interface';
 
 @Component({
   selector: 'app-table-rents',
@@ -15,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TableRentsComponent implements OnInit {
   public dateToday: any = new Date();
+  public user!: User
   @Input() rents_data: Rent[] = [];
   public clients_data: Client[] = [];
   public machines_data: Machine[] = [];
@@ -25,11 +29,13 @@ export class TableRentsComponent implements OnInit {
     private _firestore: FirestoreService,
     private _spinner: NgxSpinnerService,
     private _general: GeneralService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _auth: AuthGuard
   ) {
     this._spinner.show();
     this.getClients();
     this.getMachines();
+    this.user = this._auth.user_name;
   }
 
   ngOnInit(): void {}
@@ -125,6 +131,7 @@ export class TableRentsComponent implements OnInit {
         const elementRent: any = {
           status: 'delivered',
           delivered_date: new Date().getTime(),
+          delivered_user: `${this.user.name} ${this.user.last_name}`
         };
 
         this._firestore.updateDoc('rents', rent.id!, elementRent);
@@ -153,6 +160,7 @@ export class TableRentsComponent implements OnInit {
         const elementRent: any = {
           status: 'canceled',
           canceled_date: new Date().getTime(),
+          canceled_user: `${this.user.name} ${this.user.last_name}`
         };
 
         this._firestore.updateDoc('rents', rent.id!, elementRent).then(() => {
@@ -187,6 +195,7 @@ export class TableRentsComponent implements OnInit {
         const elementRent: any = {
           status: 'collect',
           collect_date: new Date().getTime(),
+          collect_user: `${this.user.name} ${this.user.last_name}`
         };
 
         this._firestore.updateDoc('rents', rent.id!, elementRent).then(() => {
