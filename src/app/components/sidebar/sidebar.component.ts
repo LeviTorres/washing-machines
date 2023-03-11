@@ -65,8 +65,10 @@ export class SidebarComponent implements OnInit {
   }
 
   logout(){
+    this._general._spinner.show()
     this._firebase.signOut().then(() => {
       window.location.reload();
+      this._general._spinner.hide()
     });
   }
 
