@@ -9,6 +9,6 @@ export interface Client {
   postal_code: string
   number_house: string
   observations: string
-  status: 'available',
-  image_credential?: any;
+  status: 'available' | 'busy'
+  image_credential?: any
 }

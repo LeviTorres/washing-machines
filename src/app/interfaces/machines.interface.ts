@@ -3,5 +3,5 @@ export interface Machine {
   key_machine: string
   description:string
   image_machine?: any;
-  status: 'available'
+  status: 'available' | 'busy'
 }

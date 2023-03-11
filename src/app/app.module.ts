@@ -14,6 +14,10 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import localeEs from '@angular/common/locales/es'
+import { registerLocaleData } from '@angular/common';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+registerLocaleData(localeEs, 'es')
 @NgModule({
   declarations: [
     AppComponent
@@ -30,7 +34,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
   ],
-  providers: [AngularFirestore],
+  providers: [AngularFirestore, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

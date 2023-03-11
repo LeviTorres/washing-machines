@@ -50,6 +50,10 @@ export class TableMachinesComponent implements OnInit {
     if(machine?.status === 'available'){
       return 'Disponible'
     }
+
+    if(machine?.status === 'busy'){
+      return 'Rentada'
+    }
     return;
   }
 

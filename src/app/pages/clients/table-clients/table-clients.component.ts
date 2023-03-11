@@ -38,10 +38,13 @@ export class TableClientsComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('this.clients_data',this.clients_data);
+
+  }
 
   public getClients() {
-    this._firestore.getCollection<Client>('clients').subscribe((res: any) => {
+  this._firestore.getCollection<Client>('clients').subscribe((res: any) => {
       if (res.length > 0) {
         this.clients_data = res;
         this._spinner.hide();
@@ -54,6 +57,9 @@ export class TableClientsComponent implements OnInit {
 
     if(client?.status === 'available'){
       return 'Disponible'
+    }
+    if(client?.status === 'busy'){
+      return 'Rentando'
     }
     return;
   }
