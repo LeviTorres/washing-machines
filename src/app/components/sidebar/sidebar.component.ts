@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { GeneralService } from 'src/app/services/general.service';
 import { DOCUMENT } from '@angular/common';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -29,6 +30,7 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     public _general: GeneralService,
+    private _firebase: FirestoreService,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.title = '';
@@ -62,5 +64,10 @@ export class SidebarComponent implements OnInit {
     this.activeMenu.emit(true);
   }
 
+  logout(){
+    this._firebase.signOut().then(() => {
+      window.location.reload();
+    });
+  }
 
 }

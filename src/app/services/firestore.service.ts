@@ -13,7 +13,9 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 export class FirestoreService {
   public filePath: any;
   public downloadUrl: any;
-
+  public user: any;
+  public userAuth: any;
+  public collectionUser: string = 'users';
   constructor(
     private _firestore: AngularFirestore,
     public storage: AngularFireStorage,
@@ -22,6 +24,33 @@ export class FirestoreService {
 
   login(email: string, password: string): Promise<any> {
     return this._auth.signInWithEmailAndPassword(email, password);
+  }
+  getUser(): Promise<any> {
+    if (this.user) {
+      return Promise.resolve(this.user);
+    } else {
+      return new Promise((resolve) => {
+        this._auth.user.subscribe((userAuth) => {
+          if (userAuth) {
+            this.userAuth = userAuth;
+            this.getDocument(this.collectionUser, this.userAuth.uid).then(
+              (document) => {
+                const user = document.data();
+                user.id = document.id;
+                this.user = user;
+                resolve(this.user);
+              }
+            );
+          } else {
+            resolve('');
+          }
+        });
+      });
+    }
+  }
+
+  getDocument(collection: any, id: any): Promise<any> {
+    return this._firestore.collection(collection).doc(id).ref.get();
   }
 
   signOut(): Promise<any> {
