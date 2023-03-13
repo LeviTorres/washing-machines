@@ -48,11 +48,11 @@ export class ClientsComponent implements OnInit {
       let data = list.filter((client:Client) =>
         client.name.toLowerCase().trim().includes(filter) ||
         client.last_name.toLowerCase().trim().includes(filter) ||
-        client.email.toLowerCase().trim().includes(filter)||
+        client.email?.toLowerCase().trim().includes(filter)||
         client.phone_number.toLowerCase().trim().includes(filter) ||
         client.street.toLowerCase().trim().includes(filter) ||
         client.observations.toLowerCase().trim().includes(filter) ||
-        client.postal_code.toLowerCase().trim().includes(filter) ||
+        client.postal_code?.toLowerCase().trim().includes(filter) ||
         client.suburb.toLowerCase().trim().includes(filter) ||
         client.number_house.toLowerCase().trim().includes(filter)
       );

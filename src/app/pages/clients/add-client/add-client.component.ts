@@ -27,11 +27,11 @@ export class AddClientComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     last_name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('',),
     phone_number: new FormControl('', [Validators.required]),
     street: new FormControl('', [Validators.required]),
     suburb: new FormControl('', [Validators.required]),
-    postal_code: new FormControl('', [Validators.required]),
+    postal_code: new FormControl('', ),
     number_house: new FormControl('', [Validators.required]),
     observations: new FormControl(''),
     image_credential: new FormControl(''),
@@ -122,7 +122,7 @@ export class AddClientComponent implements OnInit {
 
   public validateEmail(inputEmail: string): void {
     const validateEmail = this.clients.some((client: Client) => {
-      return client.email.trim() === inputEmail.trim();
+      return client.email?.trim() === inputEmail.trim();
     });9
     if (validateEmail) {
       this.sameEmail= false;

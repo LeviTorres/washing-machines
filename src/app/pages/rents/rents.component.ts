@@ -5,6 +5,7 @@ import { AddRentComponent } from './add-rent/add-rent.component';
 import { Rent } from '../../interfaces/rent.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FirestoreService } from '../../services/firestore.service';
+import { Client } from '../../interfaces/client.interface';
 
 @Component({
   selector: 'app-rents',
@@ -34,7 +35,10 @@ export class RentsComponent implements OnInit {
   public getRents() {
     this._firestore.getCollection<Rent>('rents').subscribe((res: Rent[]) => {
       if (res.length > 0) {
-        this.rents_data = res;
+        //const newArray = res.sort((a:any,b:any) => a.finish_date > b.finish_date);
+        //console.log(newArray);
+
+        this.rents_data = res
         this.rents_data_temp = this.rents_data
         this.data = res;
         this._spinner.hide();

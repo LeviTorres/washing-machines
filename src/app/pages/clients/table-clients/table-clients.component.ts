@@ -191,7 +191,7 @@ export class TableClientsComponent implements OnInit {
     let list = this.clients_data;
     this.changeColumnEmail = !this.changeColumnEmail;
     if (!this.changeColumnEmail) {
-      function sortArray(x: Client, y: Client) {
+      function sortArray(x: any, y: any) {
         if (x.email < y.email) {
           return -1;
         }
@@ -203,7 +203,7 @@ export class TableClientsComponent implements OnInit {
       const s = list.sort(sortArray);
       this.clients_data = s;
     } else {
-      function sortArray(x: Client, y: Client) {
+      function sortArray(x: any, y: any) {
         if (x.email < y.email) {
           return 1;
         }

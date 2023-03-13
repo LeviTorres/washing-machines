@@ -113,7 +113,7 @@ export class EditClientComponent implements OnInit {
 
   public validateEmail(inputEmail: string): void {
     const validateEmail = this.clients.some((client: Client) => {
-      return (client.email.trim().toLowerCase() === inputEmail.trim().toLowerCase()) && (this.clientData.email.trim().toLowerCase() !== inputEmail.trim().toLowerCase());
+      return (client.email?.trim().toLowerCase() === inputEmail.trim().toLowerCase()) && (this.clientData.email?.trim().toLowerCase() !== inputEmail.trim().toLowerCase());
     });9
     if (validateEmail) {
       this.sameEmail= false;
