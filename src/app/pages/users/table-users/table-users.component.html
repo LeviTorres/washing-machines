@@ -60,7 +60,8 @@
     <tr class="row-color" *ngFor="let user of users_data | paginate: { itemsPerPage: selectedValue, currentPage: page };
     index as i">
       <td class="text-center">
-        <img style="width: 60px;height: 60px;" src="{{user.image_employee}}">
+        <img *ngIf="user.image_employee" style="width: 60px;height: 60px;" src="{{user.image_employee}}">
+        <img *ngIf="!user.image_employee" style="width: 60px;height: 60px;" src="../../../../assets/icons/avatar.jpg">
       </td>
       <td>
         <span>{{ user.name }}</span>

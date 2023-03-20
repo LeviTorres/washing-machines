@@ -76,12 +76,6 @@ export class AddMachineComponent implements OnInit {
         return;
       }
 
-      if(!this.image){
-        this._toast.error('Selecciona un imagen');
-        this._general._spinner.hide();
-        return;
-      }
-
       const element: Machine = {
         id: new Date().getTime().toString(),
         key_machine: this.form.controls['key_machine'].value.trim(),
@@ -90,7 +84,11 @@ export class AddMachineComponent implements OnInit {
       }
 
       if(element){
-        this._firestore.preAddAndUpdateMachine(element, this.image)
+        if(this.image){
+          this._firestore.preAddAndUpdateMachine(element, this.image)
+        }else {
+          this._firestore.createDoc(element, 'machines', element.id)
+        }
         this._dialogRef.close();
         this._general._spinner.hide();
         this._toast.success('Lavadora registrada con Exito');

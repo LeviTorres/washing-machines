@@ -44,7 +44,7 @@ export class AddUserComponent implements OnInit {
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/)]
     ),
     password2: new FormControl('', [Validators.required]),
-    image_employee: new FormControl('', []),
+    image_employee: new FormControl(''),
   });
 
   constructor(
@@ -105,13 +105,6 @@ export class AddUserComponent implements OnInit {
         this._general._spinner.hide();
         return;
       }
-
-      if(!this.image){
-        this._toast.error('Selecciona un imagen');
-        this._general._spinner.hide();
-        return;
-      }
-
       const element: User = {
         id: new Date().getTime().toString(),
         name: this.form.controls['name'].value.trim(),
@@ -130,8 +123,11 @@ export class AddUserComponent implements OnInit {
         const id = res.user?.uid;
         element.id = id;
         element.password = '';
-        this._firestore.preAddAndUpdateUser(element,this.image)
-
+        if(this.image){
+          this._firestore.preAddAndUpdateUser(element,this.image)
+        }else{
+          this._firestore.createDoc(element, 'users', element.id)
+        }
         this._dialogRef.close();
         this._general._spinner.hide();
         this._toast.success('Usuario registrado con Exito');
