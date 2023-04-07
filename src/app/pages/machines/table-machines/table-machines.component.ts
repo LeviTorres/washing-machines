@@ -35,15 +35,6 @@ export class TableMachinesComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public getMachines() {
-    this._firestore.getCollection<Machine>('machines').subscribe((res: any) => {
-      if (res.length > 0) {
-        this.machines_data = res;
-        this._spinner.hide();
-      }
-    })
-  }
-
   public getMachine(id: string){
     const machine = this.machines_data.find((machine: Machine) => machine.id === id);
 

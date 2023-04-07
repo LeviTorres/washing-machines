@@ -36,17 +36,8 @@ export class TableClientsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('this.clients_data', this.clients_data);
   }
 
-  public getClients() {
-    this._firestore.getCollection<Client>('clients').subscribe((res: any) => {
-      if (res.length > 0) {
-        this.clients_data = res;
-        this._spinner.hide();
-      }
-    });
-  }
 
   public getClientStatus(id: string) {
     const client = this.clients_data.find((client: Client) => client.id === id);
@@ -72,7 +63,10 @@ export class TableClientsComponent implements OnInit {
 
   public async delete(client: Client) {
     if (client.status === 'busy') {
-      this._general.alertWarning('','No se puede eliminar cliente porque actualmente tiene una lavadora rentada')
+      this._general.alertWarning(
+        '',
+        'No se puede eliminar cliente porque actualmente tiene una lavadora rentada'
+      );
       return;
     }
     const result = await this._general.alertQuestion(
