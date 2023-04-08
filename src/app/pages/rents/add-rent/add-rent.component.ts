@@ -48,13 +48,11 @@ export class AddRentComponent implements OnInit {
     this._firestore
       .getCollection<Machine>('machines')
       .subscribe((res: Machine[]) => {
-        if (res.length > 0) {
           const data = res.filter(
             (machine: Machine) => machine.status === 'available'
           );
           this.machines_data = data;
           this._spinner.hide();
-        }
       });
   }
 
@@ -62,13 +60,11 @@ export class AddRentComponent implements OnInit {
     this._firestore
       .getCollection<Client>('clients')
       .subscribe((res: Client[]) => {
-        if (res.length > 0) {
           const data = res.filter(
             (client: Client) => client.status === 'available'
           );
           this.clients_data = data;
           this._spinner.hide();
-        }
       });
   }
 
