@@ -6,6 +6,7 @@ import { User } from 'firebase/auth';
 import { Client } from 'src/app/interfaces/client.interface';
 import { Machine } from 'src/app/interfaces/machines.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Dryer } from 'src/app/interfaces/dryer.interface';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,6 +16,11 @@ export class HomeComponent implements OnInit {
   public users: User[] = [];
   public clients: Client[] = [];
   public machines: Machine[] = [];
+  public machinesBusy: Machine[] = [];
+  public machinesAvailable: Machine[] = [];
+  public dryers: Dryer[] = [];
+  public dryersBusy: Dryer[] = [];
+  public dryersAvailable: Dryer[] = [];
 
   constructor(
     public _firebase: FirestoreService,
@@ -26,6 +32,7 @@ export class HomeComponent implements OnInit {
     this.getUsers();
     this.getClients();
     this.getMachines();
+    this.getDryers();
   }
 
   ngOnInit(): void {}
@@ -51,6 +58,27 @@ export class HomeComponent implements OnInit {
       .getCollection<Machine>('machines')
       .subscribe((machines: Machine[]) => {
         this.machines = machines;
+        this.machinesBusy = this.machines.filter(
+          (machine: Machine) => machine.status === 'busy'
+        );
+        this.machinesAvailable = this.machines.filter(
+          (machine: Machine) => machine.status === 'available'
+        );
+        this._spinner.hide();
+      });
+  }
+
+  public getDryers() {
+    this._firebase
+      .getCollection<Dryer>('dryers')
+      .subscribe((dryers: Dryer[]) => {
+        this.dryers = dryers;
+        this.dryersBusy = this.dryers.filter(
+          (machine: Dryer) => machine.status === 'busy'
+        );
+        this.dryersAvailable = this.dryers.filter(
+          (machine: Dryer) => machine.status === 'available'
+        );
         this._spinner.hide();
       });
   }
