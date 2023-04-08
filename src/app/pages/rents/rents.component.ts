@@ -10,56 +10,51 @@ import { Client } from '../../interfaces/client.interface';
 @Component({
   selector: 'app-rents',
   templateUrl: './rents.component.html',
-  styleUrls: ['./rents.component.scss']
+  styleUrls: ['./rents.component.scss'],
 })
 export class RentsComponent implements OnInit {
-
   public rents_data: Rent[] = [];
-  public rents_data_temp: Rent[] = []
+  public rents_data_temp: Rent[] = [];
   public data: Rent[] = [];
   public search: FormControl = new FormControl('');
-  public selectedFilter: string = ''
+  public selectedFilter: string = '';
 
   constructor(
     private _dialog: MatDialog,
     private _firestore: FirestoreService,
     private _spinner: NgxSpinnerService
   ) {
-    this._spinner.show()
-    this.getRents()
+    this._spinner.show();
+    this.getRents();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public getRents() {
     this._firestore.getCollection<Rent>('rents').subscribe((res: Rent[]) => {
-      if (res.length > 0) {
-        //const newArray = res.sort((a:any,b:any) => a.finish_date > b.finish_date);
-        //console.log(newArray);
-
-        this.rents_data = res
-        this.rents_data_temp = this.rents_data
-        this.data = res;
-        this._spinner.hide();
-      }
-    })
+      this.rents_data = res;
+      this.rents_data_temp = this.rents_data;
+      this.data = res;
+      this._spinner.hide();
+    });
   }
 
-  openDialogCreateRent(){
-    this._dialog.open(AddRentComponent,{
+  openDialogCreateRent() {
+    this._dialog.open(AddRentComponent, {
       disableClose: true,
       autoFocus: false,
       width: '550px',
-      maxHeight: '95vh'
-    })
+      maxHeight: '95vh',
+    });
   }
 
-  selectMenu(name: string){
-    if(name === 'All'){
-      this.rents_data = this.rents_data_temp
-    }else {
-      this.rents_data = this.rents_data_temp.filter((e:any) => e.status === name)
+  selectMenu(name: string) {
+    if (name === 'All') {
+      this.rents_data = this.rents_data_temp;
+    } else {
+      this.rents_data = this.rents_data_temp.filter(
+        (e: any) => e.status === name
+      );
     }
   }
 }
