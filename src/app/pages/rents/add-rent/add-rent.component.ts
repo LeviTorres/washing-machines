@@ -82,7 +82,7 @@ export class AddRentComponent implements OnInit {
       start_date: new Date(this.form.controls['start_date'].value).getTime(),
       finish_date: new Date(this.form.controls['finish_date'].value).getTime(),
       status: 'waiting_to_deliver',
-      requested_user: `${this.user.name} ${this.user.last_name}`,
+      requested_user: `${this.user.name}`,
       requested_date: new Date().getTime(),
     };
 

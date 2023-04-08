@@ -9,21 +9,22 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
-
   public users_data: User[] = [];
 
   public data: User[] = [];
 
-  public search: FormControl= new FormControl('');
+  public search: FormControl = new FormControl('');
 
   constructor(
     private _dialog: MatDialog,
-    private _firestore:FirestoreService,
-    private _spinner:NgxSpinnerService
-  ) { this._spinner.show();}
+    private _firestore: FirestoreService,
+    private _spinner: NgxSpinnerService
+  ) {
+    this._spinner.show();
+  }
 
   ngOnInit(): void {
     this.getUsers();
@@ -32,22 +33,22 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  public openDialogCreateUser(){
-    this._dialog.open(AddUserComponent,{
+  public openDialogCreateUser() {
+    this._dialog.open(AddUserComponent, {
       disableClose: true,
       autoFocus: false,
       width: '650px',
-    })
+    });
   }
 
   public async filterValue() {
     let list = this.data;
     const filter = this.search.value?.toLowerCase();
     if (filter) {
-      let data = list.filter((user:User) =>
-        user.name.toLowerCase().includes(filter) ||
-        user.last_name.toLowerCase().includes(filter) ||
-        user.email.toLowerCase().includes(filter)
+      let data = list.filter(
+        (user: User) =>
+          user.name.toLowerCase().includes(filter) ||
+          user.email.toLowerCase().includes(filter)
       );
       this.users_data = data;
     } else {
@@ -62,7 +63,6 @@ export class UsersComponent implements OnInit {
         this.data = res;
         this._spinner.hide();
       }
-    })
+    });
   }
-
 }

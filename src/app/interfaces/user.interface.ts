@@ -1,7 +1,6 @@
 export interface User {
   id?: string;
   name: string;
-  last_name: string;
   rol: 'ADMIN';
   email: string;
   password: string;

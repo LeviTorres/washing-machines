@@ -130,7 +130,7 @@ export class TableRentsComponent implements OnInit {
         const elementRent: any = {
           status: 'delivered',
           delivered_date: new Date().getTime(),
-          delivered_user: `${this.user.name} ${this.user.last_name}`,
+          delivered_user: `${this.user.name}`,
         };
 
         this._firestore.updateDoc('rents', rent.id!, elementRent);
@@ -159,7 +159,7 @@ export class TableRentsComponent implements OnInit {
         const elementRent: any = {
           status: 'canceled',
           canceled_date: new Date().getTime(),
-          canceled_user: `${this.user.name} ${this.user.last_name}`,
+          canceled_user: `${this.user.name}`,
         };
 
         this._firestore.updateDoc('rents', rent.id!, elementRent).then(() => {
@@ -194,7 +194,7 @@ export class TableRentsComponent implements OnInit {
         const elementRent: any = {
           status: 'collect',
           collect_date: new Date().getTime(),
-          collect_user: `${this.user.name} ${this.user.last_name}`,
+          collect_user: `${this.user.name}`,
         };
 
         this._firestore.updateDoc('rents', rent.id!, elementRent).then(() => {
