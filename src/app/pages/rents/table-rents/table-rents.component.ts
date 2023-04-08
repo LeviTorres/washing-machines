@@ -44,10 +44,8 @@ export class TableRentsComponent implements OnInit {
     this._firestore
       .getCollection<Client>('clients')
       .subscribe((res: Client[]) => {
-        if (res.length > 0) {
-          this.clients_data = res;
-          this._spinner.hide();
-        }
+        this.clients_data = res;
+        this._spinner.hide();
       });
   }
 
@@ -55,22 +53,18 @@ export class TableRentsComponent implements OnInit {
     this._firestore
       .getCollection<Machine>('machines')
       .subscribe((res: Machine[]) => {
-        if (res.length > 0) {
-          this.machines_data = res;
-          this.machines_available = res.filter(
-            (e: Machine) => e.status === 'available'
-          );
-          this._spinner.hide();
-        }
+        this.machines_data = res;
+        this.machines_available = res.filter(
+          (e: Machine) => e.status === 'available'
+        );
+        this._spinner.hide();
       });
   }
 
   public getRents() {
     this._firestore.getCollection<Rent>('rents').subscribe((res: Rent[]) => {
-      if (res.length > 0) {
-        this.rents_data = res;
-        this._spinner.hide();
-      }
+      this.rents_data = res;
+      this._spinner.hide();
     });
   }
 

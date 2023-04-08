@@ -58,11 +58,9 @@ export class UsersComponent implements OnInit {
 
   public getUsers() {
     this._firestore.getCollection<User>('users').subscribe((res: any) => {
-      if (res.length > 0) {
         this.users_data = res;
         this.data = res;
         this._spinner.hide();
-      }
     });
   }
 }

@@ -36,6 +36,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'dryers',
+    loadChildren: () => import('./pages/dryers/dryers.module').then(m => m.DryersModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**', redirectTo: 'login', pathMatch: 'full'
   }
 ];

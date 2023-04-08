@@ -1,0 +1,62 @@
+<header class="d-flex col-12 align-items-flex-end">
+  <h2 mat-dialog-title class="col-10 p-0">
+    Nueva Secadora
+  </h2>
+  <div class="d-flex justify-content-end w-100">
+    <i mat-dialog-close class="fa-light fa-xmark fa"></i>
+  </div>
+</header>
+<div>
+  <form [formGroup]="form">
+    <div class="container-img" *ngIf="image">
+      <img [src]=[objectUrl] alt="">
+    </div>
+    <div class="container-img" *ngIf="!image">
+      <img src='../../../../assets/icons/washing-machine.png' alt="">
+    </div>
+    <div class="d-flex container-input-file">
+      <label class="custom-file my-2">
+        <input style="display: none;" type="file" formControlName="image_dryer" (change)="handleImage($event)">
+        <mat-icon class="mx-2">cloud_upload</mat-icon><span>Subir imagen</span>
+      </label>
+    </div>
+      <div class="col-12">
+        <label >Numero de Secadora</label>
+        <mat-form-field class="w-100" appearance="outline">
+          <input matInput formControlName="key_dryer" placeholder="Ingresa un numero de secadora"/>
+          <mat-error
+            *ngIf="this.form.controls['key_dryer'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+          <mat-hint *ngIf="!sameKeyDryer">Numero de secadora ya utilizado</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-12">
+        <label >Descripcion</label>
+        <mat-form-field class="w-100 " appearance="outline">
+          <textarea matInput formControlName="description" placeholder="Ingresa una descripcion"></textarea>
+          <mat-error
+            *ngIf="this.form.controls['description'].hasError('required')"
+          >
+            Campo requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <mat-dialog-actions align="end" class="mat">
+        <div></div>
+        <div>
+          <button mat-stroked-button color="warn" mat-dialog-close>
+            Cancelar
+          </button>
+          <button
+            mat-raised-button
+            class="mx-2 btn-save"
+            (click)="createElement()"
+          >
+          Crear secadora
+          </button>
+        </div>
+      </mat-dialog-actions>
+  </form>
+</div>

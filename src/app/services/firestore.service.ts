@@ -6,6 +6,7 @@ import { User } from '../interfaces/user.interface';
 import { Machine } from '../interfaces/machines.interface';
 import { Client } from '../interfaces/client.interface';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Dryer } from '../interfaces/dryer.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -91,6 +92,10 @@ export class FirestoreService {
     this.uploadImageMachine(machine, image);
   }
 
+  public preAddAndUpdateDryer(machine: Dryer, image: any) {
+    this.uploadImageDryer(machine, image);
+  }
+
   public preAddAndUpdateClient(client: Client, image: any) {
     this.uploadImageClient(client, image);
   }
@@ -125,6 +130,24 @@ export class FirestoreService {
             this.downloadUrl = urlImage;
             machine.image_machine = urlImage;
             this.createDoc(machine, 'machines', machine.id);
+          });
+        })
+      )
+      .subscribe();
+  }
+
+  public uploadImageDryer(machine: Dryer, image: any) {
+    this.filePath = `images/${machine.id}`;
+    const fileRef = this.storage.ref(this.filePath);
+    const task = this.storage.upload(this.filePath, image);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((urlImage) => {
+            this.downloadUrl = urlImage;
+            machine.image_dryer = urlImage;
+            this.createDoc(machine, 'dryers', machine.id);
           });
         })
       )

@@ -58,9 +58,7 @@ export class AddClientComponent implements OnInit {
 
   public async getClients() {
     this._firestore.getCollection<Client>('clients').subscribe((res: any) => {
-      if (res.length > 0) {
-        this.clients = res;
-      }
+      this.clients = res;
     });
   }
 

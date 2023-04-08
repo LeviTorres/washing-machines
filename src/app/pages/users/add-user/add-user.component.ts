@@ -79,9 +79,7 @@ export class AddUserComponent implements OnInit {
 
   public async getUsers() {
     this._firestore.getCollection<User>('users').subscribe((res: any) => {
-      if (res.length > 0) {
-        this.users = res;
-      }
+      this.users = res;
     });
   }
 
