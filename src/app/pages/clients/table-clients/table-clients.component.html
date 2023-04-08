@@ -27,18 +27,6 @@
           ></i>
         </th>
         <th>
-          Apellido
-          <i
-            class="fa-solid fa-caret-up mx-2"
-            [ngClass]="
-              changeColumnLastName === true
-                ? 'fa-solid fa-caret-down'
-                : 'fa-solid fa-caret-up'
-            "
-            (click)="changeLastName()"
-          ></i>
-        </th>
-        <th>
           Correo
           <i
             class="fa-solid fa-caret-up mx-2"
@@ -70,15 +58,12 @@
               'green-status': client.status === 'available',
               'blue-status': client.status === 'busy'
             }"
-            style="border-radius: 4px; padding: 5px;color: white;"
+            style="border-radius: 4px; padding: 5px; color: white"
             >{{ getClientStatus(client.id!) }}</span
           >
         </td>
         <td>
           <span>{{ client.name }}</span>
-        </td>
-        <td>
-          <span>{{ client.last_name }}</span>
         </td>
         <td>
           <span>{{ client.email }}</span>

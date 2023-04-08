@@ -13,9 +13,9 @@
           formControlName="client"
           placeholder="Selecciona un cliente"
         >
-          <mat-option *ngFor="let item of clients_data" value="{{ item.id }}"
-            >{{ item.name }} {{ item.last_name }}</mat-option
-          >
+          <mat-option *ngFor="let item of clients_data" value="{{ item.id }}">{{
+            item.name
+          }}</mat-option>
         </mat-select>
         <mat-error *ngIf="this.form.controls['client'].hasError('required')">
           Campo requerido
@@ -42,7 +42,11 @@
     </div>
     <div class="col-12">
       <label>Fecha de Renta</label>
-      <mat-form-field class="w-100" appearance="outline" style="position: relative !important;">
+      <mat-form-field
+        class="w-100"
+        appearance="outline"
+        style="position: relative !important"
+      >
         <mat-date-range-input [rangePicker]="picker">
           <input
             matStartDate
@@ -58,7 +62,7 @@
         <mat-datepicker-toggle
           matIconSuffix
           [for]="picker"
-          style="position: absolute !important; right: 0;top: 0.5px;"
+          style="position: absolute !important; right: 0; top: 0.5px"
         ></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>

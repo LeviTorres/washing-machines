@@ -80,7 +80,6 @@ export class TableRentsComponent implements OnInit {
     );
     return {
       name: findClient?.name,
-      last_name: findClient?.last_name,
     };
   }
 

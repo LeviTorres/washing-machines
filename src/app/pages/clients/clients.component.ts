@@ -49,7 +49,6 @@ export class ClientsComponent implements OnInit {
       let data = list.filter(
         (client: Client) =>
           client.name.toLowerCase().trim().includes(filter) ||
-          client.last_name.toLowerCase().trim().includes(filter) ||
           client.email?.toLowerCase().trim().includes(filter) ||
           client.phone_number.toLowerCase().trim().includes(filter) ||
           client.street.toLowerCase().trim().includes(filter) ||

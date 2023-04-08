@@ -23,8 +23,6 @@ export class TableClientsComponent implements OnInit {
 
   public changeColumnName: boolean = true;
 
-  public changeColumnLastName: boolean = true;
-
   public changeColumnEmail: boolean = true;
 
   constructor(
@@ -35,9 +33,7 @@ export class TableClientsComponent implements OnInit {
     private _dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 
   public getClientStatus(id: string) {
     const client = this.clients_data.find((client: Client) => client.id === id);
@@ -112,36 +108,6 @@ export class TableClientsComponent implements OnInit {
           return 1;
         }
         if (x.name > y.name) {
-          return -1;
-        }
-        return 0;
-      }
-      const s = list.sort(sortArray);
-      this.clients_data = s;
-    }
-  }
-
-  public changeLastName() {
-    let list = this.clients_data;
-    this.changeColumnLastName = !this.changeColumnLastName;
-    if (!this.changeColumnLastName) {
-      function sortArray(x: Client, y: Client) {
-        if (x.last_name < y.last_name) {
-          return -1;
-        }
-        if (x.last_name > y.last_name) {
-          return 1;
-        }
-        return 0;
-      }
-      const s = list.sort(sortArray);
-      this.clients_data = s;
-    } else {
-      function sortArray(x: Client, y: Client) {
-        if (x.last_name < y.last_name) {
-          return 1;
-        }
-        if (x.last_name > y.last_name) {
           return -1;
         }
         return 0;

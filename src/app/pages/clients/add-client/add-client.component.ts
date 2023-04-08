@@ -11,7 +11,7 @@ import { ConvertImgService } from '../../../services/convert-img.service';
 @Component({
   selector: 'app-add-client',
   templateUrl: './add-client.component.html',
-  styleUrls: ['./add-client.component.scss']
+  styleUrls: ['./add-client.component.scss'],
 })
 export class AddClientComponent implements OnInit {
   public clients: Client[] = [];
@@ -20,18 +20,17 @@ export class AddClientComponent implements OnInit {
 
   public sameName: boolean = true;
 
-  public image: any ;
+  public image: any;
 
-  public objectUrl:any;
+  public objectUrl: any;
 
   public form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    last_name: new FormControl('', [Validators.required]),
-    email: new FormControl('',),
+    email: new FormControl(''),
     phone_number: new FormControl('', [Validators.required]),
     street: new FormControl('', [Validators.required]),
     suburb: new FormControl('', [Validators.required]),
-    postal_code: new FormControl('', ),
+    postal_code: new FormControl(''),
     number_house: new FormControl('', [Validators.required]),
     observations: new FormControl(''),
     image_credential: new FormControl(''),
@@ -41,39 +40,33 @@ export class AddClientComponent implements OnInit {
     private _firestore: FirestoreService,
     private _general: GeneralService,
     private _dialogRef: MatDialogRef<AddClientComponent>,
-    private _toast:ToastrService,
+    private _toast: ToastrService,
     private _convert: ConvertImgService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     this._general._spinner.show();
     this.getClients();
     this.form.controls['email'].valueChanges.subscribe((inputEmail) => {
       this.validateEmail(inputEmail);
-    })
+    });
     this.form.controls['name'].valueChanges.subscribe((inputEmail) => {
       this.validateName();
-    })
-    this.form.controls['last_name'].valueChanges.subscribe((inputEmail) => {
-      this.validateName();
-    })
+    });
     this._general._spinner.hide();
   }
 
-
   public async getClients() {
     this._firestore.getCollection<Client>('clients').subscribe((res: any) => {
-      if(res.length > 0){
+      if (res.length > 0) {
         this.clients = res;
       }
-    })
+    });
   }
 
-  public async handleImage(event: any){
+  public async handleImage(event: any) {
     this.image = event.target.files[0];
-    if(this.image){
+    if (this.image) {
       this.objectUrl = await this._convert.encodeFileAsBase64URL(this.image);
     }
   }
@@ -82,7 +75,7 @@ export class AddClientComponent implements OnInit {
     try {
       this._general._spinner.show();
 
-      if(!this.sameEmail || !this.sameName || this.form.invalid) {
+      if (!this.sameEmail || !this.sameName || this.form.invalid) {
         this._general._spinner.hide();
         return;
       }
@@ -90,7 +83,6 @@ export class AddClientComponent implements OnInit {
       const element: Client = {
         id: new Date().getTime().toString(),
         name: this.form.controls['name'].value.trim(),
-        last_name: this.form.controls['last_name'].value.trim(),
         email: this.form.controls['email'].value.trim(),
         phone_number: this.form.controls['phone_number'].value.trim(),
         street: this.form.controls['street'].value.trim(),
@@ -98,34 +90,36 @@ export class AddClientComponent implements OnInit {
         postal_code: this.form.controls['postal_code'].value.trim(),
         number_house: this.form.controls['number_house'].value.trim(),
         observations: this.form.controls['observations'].value.trim(),
-        status: 'available'
-      }
+        status: 'available',
+      };
 
-      if(element){
-        if(this.image){
-          this._firestore.preAddAndUpdateClient(element, this.image)
-        }else {
-          this._firestore.createDoc(element,'clients',element.id);
+      if (element) {
+        if (this.image) {
+          this._firestore.preAddAndUpdateClient(element, this.image);
+        } else {
+          this._firestore.createDoc(element, 'clients', element.id);
         }
         this._dialogRef.close();
         this._general._spinner.hide();
         this._toast.success('Usuario registrado con Exito');
       }
-
     } catch (error) {
       console.log(error);
       this._general._spinner.hide();
-      this._toast.error('Inténtelo de nuevo, si el error persiste, reinicie la página.','Error al crear un usuario');
+      this._toast.error(
+        'Inténtelo de nuevo, si el error persiste, reinicie la página.',
+        'Error al crear un usuario'
+      );
     }
   }
-
 
   public validateEmail(inputEmail: string): void {
     const validateEmail = this.clients.some((client: Client) => {
       return client.email?.trim() === inputEmail.trim();
-    });9
+    });
+    9;
     if (validateEmail) {
-      this.sameEmail= false;
+      this.sameEmail = false;
     } else {
       this.sameEmail = true;
     }
@@ -134,14 +128,10 @@ export class AddClientComponent implements OnInit {
   public validateName(): void {
     const fullName = `${this.form.controls['name'].value
       .toLocaleLowerCase()
-      .trim()}${this.form.controls['last_name'].value
-      .toLocaleLowerCase()
       .trim()}`;
     const validatefullName = this.clients.some((client: Client) => {
       return (
-        `${client.name.toLocaleLowerCase().trim()}${client.last_name
-          .toLocaleLowerCase()
-          .trim()}` ===
+        `${client.name.toLocaleLowerCase().trim()}` ===
         fullName.toLocaleLowerCase().trim()
       );
     });
@@ -151,5 +141,4 @@ export class AddClientComponent implements OnInit {
       this.sameName = true;
     }
   }
-
 }
