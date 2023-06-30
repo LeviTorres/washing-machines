@@ -29,10 +29,10 @@
             </div>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="selectMenu('All')">Todas</button>
-              <button mat-menu-item (click)="selectMenu('waiting_to_deliver')">Esperando a entregar</button>
-              <button mat-menu-item (click)="selectMenu('delivered')">Entregada</button>
-              <button mat-menu-item (click)="selectMenu('canceled')">Cancelada</button>
-              <button mat-menu-item (click)="selectMenu('collect')">Recogida</button>
+              <button mat-menu-item (click)="selectMenu('ACTIVA')">ACTIVA</button>
+              <button mat-menu-item (click)="selectMenu('PROXIMO A VENCER')">PROXIMO A VENCER</button>
+              <button mat-menu-item (click)="selectMenu('VENCIDA')">VENCIDA</button>
+              <button mat-menu-item (click)="selectMenu('CERRADA')">CERRADA</button>
             </mat-menu>
           </div>
           <div class="col-12 col-sm-4">

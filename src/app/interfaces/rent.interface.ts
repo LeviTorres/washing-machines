@@ -1,7 +1,6 @@
 export interface Rent {
   id?: string;
   client: string;
-  machine: string;
   start_date: number;
   finish_date: number;
   requested_date?: number;
@@ -12,5 +11,5 @@ export interface Rent {
   delivered_user?: string;
   canceled_user?:string;
   collect_user?: string;
-  status: 'delivered' | 'canceled' | 'waiting_to_deliver' | 'collect';
+  status: 'ACTIVA' | 'CERRADA' | 'PROXIMO A VENCER' | 'VENCIDA';
 }

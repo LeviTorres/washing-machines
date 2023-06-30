@@ -12,30 +12,12 @@
         <mat-select
           formControlName="client"
           placeholder="Selecciona un cliente"
-        >
+        > 
           <mat-option *ngFor="let item of clients_data" value="{{ item.id }}">{{
             item.name
           }}</mat-option>
         </mat-select>
         <mat-error *ngIf="this.form.controls['client'].hasError('required')">
-          Campo requerido
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-12">
-      <label>Lavadora</label>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-select
-          formControlName="machine"
-          placeholder="Selecciona una lavadora"
-        >
-          <mat-option
-            *ngFor="let item of machines_data"
-            value="{{ item.id }}"
-            >{{ item.key_machine }}</mat-option
-          >
-        </mat-select>
-        <mat-error *ngIf="this.form.controls['machine'].hasError('required')">
           Campo requerido
         </mat-error>
       </mat-form-field>

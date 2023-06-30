@@ -23,7 +23,6 @@ export class AddRentComponent implements OnInit {
 
   public form: FormGroup = new FormGroup({
     client: new FormControl('', [Validators.required]),
-    machine: new FormControl('', [Validators.required]),
     start_date: new FormControl('', [Validators.required]),
     finish_date: new FormControl('', [Validators.required]),
   });
@@ -78,10 +77,9 @@ export class AddRentComponent implements OnInit {
     const element: Rent = {
       id: new Date().getTime().toString(),
       client: this.form.controls['client'].value,
-      machine: this.form.controls['machine'].value,
       start_date: new Date(this.form.controls['start_date'].value).getTime(),
       finish_date: new Date(this.form.controls['finish_date'].value).getTime(),
-      status: 'waiting_to_deliver',
+      status: 'ACTIVA',
       requested_user: `${this.user.name}`,
       requested_date: new Date().getTime(),
     };
@@ -95,15 +93,11 @@ export class AddRentComponent implements OnInit {
         this.form.controls['client'].value,
         element
       );
-      this._firestore.updateDoc(
-        'machines',
-        this.form.controls['machine'].value,
-        element
-      );
     });
-
+ 
     this._dialogRef.close();
     this._general._spinner.hide();
     this._toast.success('Renta registrada con Exito');
   }
 }
+ 

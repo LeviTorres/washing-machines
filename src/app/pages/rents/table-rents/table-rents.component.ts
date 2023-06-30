@@ -24,6 +24,13 @@ export class TableRentsComponent implements OnInit {
   public machines_data: Machine[] = [];
   public machines_available: Machine[] = [];
 
+  public changeColumnStatus: boolean = true;
+  public changeColumnClient: boolean = true;
+
+  public selectedValue: number = 10;
+
+  public page!: number;
+
   constructor(
     private _dialog: MatDialog,
     private _firestore: FirestoreService,
@@ -35,10 +42,14 @@ export class TableRentsComponent implements OnInit {
     this._spinner.show();
     this.getClients();
     this.getMachines();
+    
+    
     this.user = this._auth.user_name;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
   public getClients() {
     this._firestore
@@ -74,6 +85,11 @@ export class TableRentsComponent implements OnInit {
     );
     return {
       name: findClient?.name,
+      number_house: findClient?.number_house,
+      phone_number: findClient?.phone_number,
+      postal_code: findClient?.postal_code,
+      street: findClient?.street,
+      suburb: findClient?.suburb
     };
   }
 
@@ -84,22 +100,7 @@ export class TableRentsComponent implements OnInit {
     return findMachine?.key_machine;
   }
 
-  public getStatus(status: string) {
-    if (status === 'waiting_to_deliver') {
-      return 'Esperando a entregar';
-    }
-    if (status === 'delivered') {
-      return 'Entregada';
-    }
-    if (status === 'canceled') {
-      return 'Cancelada';
-    }
-    if (status === 'collect') {
-      return 'Recogida';
-    }
-    return;
-  }
-
+  
   getExpirationDay(date: number) {
     let milisegundosDia = 24 * 60 * 60 * 1000;
     let milisegundosTranscurridos = Math.abs(
@@ -161,7 +162,6 @@ export class TableRentsComponent implements OnInit {
             status: 'available',
           };
           this._firestore.updateDoc('clients', rent.client, element);
-          this._firestore.updateDoc('machines', rent.machine, element);
           this._toastr.success('Renta actualizada con exito');
           this._general._spinner.hide();
         });
@@ -173,6 +173,80 @@ export class TableRentsComponent implements OnInit {
           'Error al actualizar la renta'
         );
       }
+    }
+  }
+
+  closeRent(rent: Rent){
+    const element: Rent = {
+      ...rent,
+      status: 'CERRADA'
+    }
+    this._firestore.updateDoc('rents', rent.id!, element).then(() => {
+          const elementClient: any = {
+            status: 'available',
+          };
+          this._firestore.updateDoc('clients', rent.client, elementClient);
+          
+        });
+  }
+
+  public changeStatus() {
+    let list = this.rents_data;
+    this.changeColumnStatus = !this.changeColumnStatus;
+    if (!this.changeColumnStatus) {
+      function sortArray(x: Rent, y: Rent) {
+        if (x.status < y.status) {
+          return -1;
+        }
+        if (x.status > y.status) {
+          return 1;
+        }
+        return 0;
+      }
+      const s = list.sort(sortArray);
+      this.rents_data = s;
+    } else {
+      function sortArray(x: Rent, y: Rent) {
+        if (x.status < y.status) {
+          return 1;
+        }
+        if (x.status > y.status) {
+          return -1;
+        }
+        return 0;
+      }
+      const s = list.sort(sortArray);
+      this.rents_data = s;
+    }
+  }
+
+  public changeClient() {
+    let list = this.rents_data;
+    this.changeColumnStatus = !this.changeColumnStatus;
+    if (!this.changeColumnStatus) {
+      function sortArray(x: Rent, y: Rent) {
+        if (x.client < y.client) {
+          return -1;
+        }
+        if (x.client > y.client) {
+          return 1;
+        }
+        return 0;
+      }
+      const s = list.sort(sortArray);
+      this.rents_data = s;
+    } else {
+      function sortArray(x: Rent, y: Rent) {
+        if (x.client < y.client) {
+          return 1;
+        }
+        if (x.client > y.client) {
+          return -1;
+        }
+        return 0;
+      }
+      const s = list.sort(sortArray);
+      this.rents_data = s;
     }
   }
 
@@ -196,7 +270,6 @@ export class TableRentsComponent implements OnInit {
             status: 'available',
           };
           this._firestore.updateDoc('clients', rent.client, element);
-          this._firestore.updateDoc('machines', rent.machine, element);
           this._toastr.success('Renta actualizada con exito');
           this._general._spinner.hide();
         });

@@ -116,7 +116,7 @@ export class TableClientsComponent implements OnInit {
       this.clients_data = s;
     }
   }
-
+ 
   public changeStatus() {
     let list = this.clients_data;
     this.changeColumnStatus = !this.changeColumnStatus;
