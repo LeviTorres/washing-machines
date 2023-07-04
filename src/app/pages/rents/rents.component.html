@@ -10,20 +10,11 @@
         </mat-toolbar>
       </div>
       <div class="main">
-        <div
-          class="d-flex flex-column flex-sm-row justify-content-between align-middle text-center col-12"
-        >
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-middle text-center col-12">
           <div class="col-12 col-sm-4">
             <h1>Rentas</h1>
           </div>
           <div class="col-12 col-sm-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <input
-                matInput
-                [formControl]="search"
-                placeholder="Ingresa tu busqueda"
-              />
-            </mat-form-field>
             <div>
               <button mat-button class="btn-save" [matMenuTriggerFor]="menu">Filtrar por</button>
             </div>
@@ -41,6 +32,8 @@
             </button>
           </div>
         </div>
+        <div style="display: flex;flex-direction: row-reverse;"><img style="height: 30px; width: 30px;cursor: pointer;" src="../../../assets/icons/pdf (1).png"
+            (click)="generatePDF()"></div>
         <app-table-rents [rents_data]="rents_data"></app-table-rents>
       </div>
     </div>
