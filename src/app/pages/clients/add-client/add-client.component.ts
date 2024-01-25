@@ -27,11 +27,11 @@ export class AddClientComponent implements OnInit {
   public form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     email: new FormControl(''),
-    phone_number: new FormControl('', [Validators.required]),
-    street: new FormControl('', [Validators.required]),
-    suburb: new FormControl('', [Validators.required]),
+    phone_number: new FormControl('', []),
+    street: new FormControl('', []),
+    suburb: new FormControl('', []),
     postal_code: new FormControl(''),
-    number_house: new FormControl('', [Validators.required]),
+    number_house: new FormControl('', []),
     observations: new FormControl(''),
     image_credential: new FormControl(''),
   });
