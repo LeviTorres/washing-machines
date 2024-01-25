@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "@ng-select/ng-select": "^9.1.0",
     "@types/jspdf": "^2.0.0",
     "firebase": "^9.10.0",
     "jspdf": "^2.5.1",

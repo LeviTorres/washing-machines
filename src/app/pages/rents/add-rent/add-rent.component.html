@@ -6,46 +6,24 @@
 </header>
 <div>
   <form [formGroup]="form">
-    <div class="col-12">
+    <div class="col-12 mb-3">
       <label>Cliente</label>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-select
-          formControlName="client"
-          placeholder="Selecciona un cliente"
-        > 
-          <mat-option *ngFor="let item of clients_data" value="{{ item.id }}">{{
-            item.name
-          }}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="this.form.controls['client'].hasError('required')">
-          Campo requerido
-        </mat-error>
-      </mat-form-field>
+      <ng-select placeholder="Selecciona una opción" notFoundText="SIN RESULTADOS" [clearable]="false"
+        formControlName="client">
+        <ng-option *ngFor="let item of clients_data" [value]="item.id">{{
+          item.name
+          }}, {{item.street}}, {{item.number_house}}, {{item.suburb}} </ng-option>
+      </ng-select>
     </div>
     <div class="col-12">
       <label>Fecha de Renta</label>
-      <mat-form-field
-        class="w-100"
-        appearance="outline"
-        style="position: relative !important"
-      >
+      <mat-form-field class="w-100" appearance="outline" style="position: relative !important">
         <mat-date-range-input [rangePicker]="picker">
-          <input
-            matStartDate
-            formControlName="start_date"
-            placeholder="Fecha inicio"
-          />
-          <input
-            matEndDate
-            formControlName="finish_date"
-            placeholder="Fecha final"
-          />
+          <input matStartDate formControlName="start_date" placeholder="Fecha inicio" />
+          <input matEndDate formControlName="finish_date" placeholder="Fecha final" />
         </mat-date-range-input>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-          style="position: absolute !important; right: 0; top: 0.5px"
-        ></mat-datepicker-toggle>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"
+          style="position: absolute !important; right: 0; top: 0.5px"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </div>
@@ -55,11 +33,7 @@
         <button mat-stroked-button color="warn" mat-dialog-close>
           Cancelar
         </button>
-        <button
-          mat-raised-button
-          class="mx-2 btn-save"
-          (click)="createElement()"
-        >
+        <button mat-raised-button class="mx-2 btn-save" (click)="createElement()">
           Registrar renta
         </button>
       </div>

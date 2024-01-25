@@ -22,7 +22,7 @@ export class AddRentComponent implements OnInit {
   public user!: User;
 
   public form: FormGroup = new FormGroup({
-    client: new FormControl('', [Validators.required]),
+    client: new FormControl(null, [Validators.required]),
     start_date: new FormControl('', [Validators.required]),
     finish_date: new FormControl('', [Validators.required]),
   });
@@ -94,10 +94,9 @@ export class AddRentComponent implements OnInit {
         element
       );
     });
- 
+
     this._dialogRef.close();
     this._general._spinner.hide();
     this._toast.success('Renta registrada con Exito');
   }
 }
- 

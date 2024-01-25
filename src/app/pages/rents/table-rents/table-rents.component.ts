@@ -42,14 +42,11 @@ export class TableRentsComponent implements OnInit {
     this._spinner.show();
     this.getClients();
     this.getMachines();
-    
-    
+
     this.user = this._auth.user_name;
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   public getClients() {
     this._firestore
@@ -75,6 +72,8 @@ export class TableRentsComponent implements OnInit {
   public getRents() {
     this._firestore.getCollection<Rent>('rents').subscribe((res: Rent[]) => {
       this.rents_data = res;
+      console.log({ res });
+
       this._spinner.hide();
     });
   }
@@ -89,7 +88,7 @@ export class TableRentsComponent implements OnInit {
       phone_number: findClient?.phone_number,
       postal_code: findClient?.postal_code,
       street: findClient?.street,
-      suburb: findClient?.suburb
+      suburb: findClient?.suburb,
     };
   }
 
@@ -100,7 +99,6 @@ export class TableRentsComponent implements OnInit {
     return findMachine?.key_machine;
   }
 
-  
   getExpirationDay(date: number) {
     let milisegundosDia = 24 * 60 * 60 * 1000;
     let milisegundosTranscurridos = Math.abs(
@@ -176,18 +174,17 @@ export class TableRentsComponent implements OnInit {
     }
   }
 
-  closeRent(rent: Rent){
+  closeRent(rent: Rent) {
     const element: Rent = {
       ...rent,
-      status: 'CERRADA'
-    }
+      status: 'CERRADA',
+    };
     this._firestore.updateDoc('rents', rent.id!, element).then(() => {
-          const elementClient: any = {
-            status: 'available',
-          };
-          this._firestore.updateDoc('clients', rent.client, elementClient);
-          
-        });
+      const elementClient: any = {
+        status: 'available',
+      };
+      this._firestore.updateDoc('clients', rent.client, elementClient);
+    });
   }
 
   public changeStatus() {

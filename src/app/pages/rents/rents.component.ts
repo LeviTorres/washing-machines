@@ -21,13 +21,13 @@ export class RentsComponent implements OnInit {
   public data: Rent[] = [];
   public search: FormControl = new FormControl('');
   public selectedFilter: string = '';
-  public dateToday: any = new Date().setHours(0,0,0,0);
+  public dateToday: any = new Date().setHours(0, 0, 0, 0);
   public clients_data: Client[] = [];
   constructor(
     private _dialog: MatDialog,
     private _firestore: FirestoreService,
     private _spinner: NgxSpinnerService,
-    private firestore: AngularFirestore,
+    private firestore: AngularFirestore
   ) {
     this._spinner.show();
     this.getRents();
@@ -45,26 +45,38 @@ export class RentsComponent implements OnInit {
       });
   }
 
-
   public getRents() {
     this._firestore.getCollection<Rent>('rents').subscribe((res: Rent[]) => {
       res.map((rent: Rent) => {
         const fechaCaducidad = new Date(rent.finish_date).setHours(0, 0, 0, 0);
-        if(fechaCaducidad < this.dateToday && rent.status !== 'VENCIDA' && rent.status !== 'CERRADA' ){
-          rent.status = 'VENCIDA'
-         this._firestore.updateDoc('rents', rent.id!, rent).then(() => {});
-        }else if(fechaCaducidad === this.dateToday && rent.status !== 'VENCIDA' && rent.status !== 'CERRADA' ){
-          rent.status = 'VENCIDA'
-         this._firestore.updateDoc('rents', rent.id!, rent).then(() => {});
-        }else if((fechaCaducidad - this.dateToday) / (1000 * 60 * 60 * 24) <= 3 && rent.status !== 'CERRADA' && rent.status !== 'VENCIDA' && rent.status !== 'PROXIMO A VENCER'){
-          rent.status = 'PROXIMO A VENCER'
+        if (
+          fechaCaducidad < this.dateToday &&
+          rent.status !== 'VENCIDA' &&
+          rent.status !== 'CERRADA'
+        ) {
+          rent.status = 'VENCIDA';
+          this._firestore.updateDoc('rents', rent.id!, rent).then(() => {});
+        } else if (
+          fechaCaducidad === this.dateToday &&
+          rent.status !== 'VENCIDA' &&
+          rent.status !== 'CERRADA'
+        ) {
+          rent.status = 'VENCIDA';
+          this._firestore.updateDoc('rents', rent.id!, rent).then(() => {});
+        } else if (
+          (fechaCaducidad - this.dateToday) / (1000 * 60 * 60 * 24) <= 3 &&
+          rent.status !== 'CERRADA' &&
+          rent.status !== 'VENCIDA' &&
+          rent.status !== 'PROXIMO A VENCER'
+        ) {
+          rent.status = 'PROXIMO A VENCER';
           this._firestore.updateDoc('rents', rent.id!, rent).then(() => {});
         }
-        return rent
-      })
-      this.rents_data = res.sort((a:Rent, b:Rent) => {
-        var fechaCreacionA = new Date(a.finish_date).getTime();
-        var fechaCreacionB = new Date(b.finish_date).getTime();
+        return rent;
+      });
+      this.rents_data = res.sort((a: Rent, b: Rent) => {
+        var fechaCreacionA = new Date(b.finish_date).getTime();
+        var fechaCreacionB = new Date(a.finish_date).getTime();
         return fechaCreacionA - fechaCreacionB;
       });
       this.rents_data_temp = this.rents_data;
@@ -79,41 +91,49 @@ export class RentsComponent implements OnInit {
     const expirationTime = creationDate - currentDate;
     const millisecondsInDay = 24 * 60 * 60 * 1000; // Cantidad de milisegundos en un día
     const days = Math.floor(expirationTime / millisecondsInDay);
-    let day
-    if(days !== 0){
-      day = days * -1 
-    }else {
-      day = 0
+    let day;
+    if (days !== 0) {
+      day = days * -1;
+    } else {
+      day = 0;
     }
     return day;
   }
 
-  formatDate(date: number): String{
-    return `${new Date(date).getDate()}${new Date(date).getMonth()+1}${new Date(date).getFullYear()}`
+  formatDate(date: number): String {
+    return `${new Date(date).getDate()}${
+      new Date(date).getMonth() + 1
+    }${new Date(date).getFullYear()}`;
   }
 
   generatePDF() {
-    const doc = new jsPDF.default({ orientation: 'landscape' })
+    const doc = new jsPDF.default({ orientation: 'landscape' });
     const data = [
       ['Nombre', 'Apellido', 'Edad'],
       ['John', 'Doe', '30'],
       ['Jane', 'Doe', '28'],
-      ['Bob', 'Smith', '35']
+      ['Bob', 'Smith', '35'],
     ];
 
     const tableData = this.rents_data.map((obj: Rent) => [
-      obj.status, 
-      this.getClient(obj.client).name , 
+      obj.status,
+      this.getClient(obj.client).name,
       this.getClient(obj.client).phone_number,
-      this.getClient(obj.client).street + ' #' + this.getClient(obj.client).number_house + ' ' + this.getClient(obj.client).suburb + ' ' + this.getClient(obj.client).postal_code,
+      this.getClient(obj.client).street +
+        ' #' +
+        this.getClient(obj.client).number_house +
+        ' ' +
+        this.getClient(obj.client).suburb +
+        ' ' +
+        this.getClient(obj.client).postal_code,
     ]);
-    
+
     const tableConfig = {
-      head: [['Estatus', 'Cliente', 'Telefono numerico', 'Direccion']], 
+      head: [['Estatus', 'Cliente', 'Telefono numerico', 'Direccion']],
       body: tableData,
       startY: 20,
     };
-    
+
     (doc as any).autoTable(tableConfig);
 
     //doc.text('Rentas', 10, 10);
@@ -130,10 +150,9 @@ export class RentsComponent implements OnInit {
       phone_number: findClient?.phone_number,
       postal_code: findClient?.postal_code,
       street: findClient?.street,
-      suburb: findClient?.suburb
+      suburb: findClient?.suburb,
     };
   }
-
 
   openDialogCreateRent() {
     const dialog = this._dialog.open(AddRentComponent, {
@@ -144,10 +163,10 @@ export class RentsComponent implements OnInit {
     });
 
     dialog.afterClosed().subscribe(() => {
-      this.getRents()
-    })
+      this.getRents();
+    });
   }
- 
+
   selectMenu(name: string) {
     if (name === 'All') {
       this.rents_data = this.rents_data_temp;

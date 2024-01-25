@@ -1,39 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Icons');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Icons");
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
-*{
-    font-family: 'Inter', sans-serif;
-    box-sizing: border-box;
-    text-decoration: none;
+* {
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+  text-decoration: none;
 }
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
   height: 100%;
   overflow-y: hidden;
 }
 
-mat-sidenav{
-  background-color: #6D8299 !important;
+mat-sidenav {
+  background-color: #6d8299 !important;
   width: 230px !important;
   height: 100vh !important;
 }
 
-mat-sidenav-content{
-  .main{
-      height: calc(100vh - 64px)  !important;
-      overflow-y: auto !important;
-      padding: 20px;
+mat-sidenav-content {
+  .main {
+    height: calc(100vh - 64px) !important;
+    overflow-y: auto !important;
+    padding: 20px;
   }
 }
 
-mat-toolbar{
-  background-color: #B0BEC5 !important;
+mat-toolbar {
+  background-color: #b0bec5 !important;
   position: sticky !important;
   z-index: 1;
-  mat-icon{
+  mat-icon {
     margin-left: 15px;
     color: white;
     cursor: pointer;
@@ -41,7 +45,7 @@ mat-toolbar{
 }
 
 .btn-save {
-  background-color: #455A64 !important;
+  background-color: #455a64 !important;
   color: white !important;
 }
 
@@ -60,7 +64,6 @@ mat-toolbar{
 .orange-status {
   background-color: orange;
 }
-
 
 // tables
 th {
