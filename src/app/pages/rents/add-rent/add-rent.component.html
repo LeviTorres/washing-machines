@@ -8,11 +8,11 @@
   <form [formGroup]="form">
     <div class="col-12 mb-3">
       <label>Cliente</label>
-      <ng-select placeholder="Selecciona una opción" notFoundText="SIN RESULTADOS" [clearable]="false"
-        formControlName="client">
+      <ng-select placeholder="Selecciona una opción" notFoundText="SIN RESULTADOS" [appendTo]="'body'"
+        [clearable]="false" formControlName="client">
         <ng-option *ngFor="let item of clients_data" [value]="item.id">{{
           item.name
-          }}, {{item.street}}, {{item.number_house}}, {{item.suburb}} </ng-option>
+          }}, {{item.street}}, {{item.suburb}} </ng-option>
       </ng-select>
     </div>
     <div class="col-12">
